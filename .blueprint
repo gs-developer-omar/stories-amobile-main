@@ -1,0 +1,15 @@
+created:
+    - database/factories/StoryFactory.php
+    - database/factories/StoryItemFactory.php
+    - database/factories/StoryItemButtonFactory.php
+    - database/migrations/2024_09_05_122417_create_stories_table.php
+    - database/migrations/2024_09_05_122418_create_story_items_table.php
+    - database/migrations/2024_09_05_122419_create_story_item_buttons_table.php
+    - app/Models/Story.php
+    - app/Models/StoryItem.php
+    - app/Models/StoryItemButton.php
+models:
+    User: { name: string, email: string, email_verified_at: 'timestamp nullable default:NULL', password: string, remember_token: 'string:100 nullable default:NULL' }
+    Story: { title: 'string:255', icon_url: text, position: unsignedInteger, is_published: 'boolean default:false', relationships: { hasMany: StoryItem } }
+    StoryItem: { name: 'string:255', file_path: text, position: unsignedInteger, is_published: 'boolean default:false', relationships: { belongsTo: Story, hasMany: StoryItemButton } }
+    StoryItemButton: { button_text: 'string:255', media_url: text, is_active: 'boolean default:false', relationships: { belongsTo: StoryItem } }

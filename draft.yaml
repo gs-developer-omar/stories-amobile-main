@@ -1,0 +1,24 @@
+models:
+  Story:
+    title: string:255
+    icon_url: text
+    position: unsignedInteger
+    is_published: boolean default:false
+    relationships:
+      hasMany: StoryItem
+
+  StoryItem:
+    name: string:255
+    file_path: text
+    position: unsignedInteger
+    is_published: boolean default:false
+    relationships:
+      belongsTo: Story
+      hasMany: StoryItemButton
+
+  StoryItemButton:
+    button_text: string:255
+    media_url: text
+    is_active: boolean default:false
+    relationships:
+      belongsTo: StoryItem
