@@ -18,7 +18,7 @@ class StoryItemButtonResource extends Resource
 {
     protected static ?string $model = StoryItemButton::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-photo';
     protected static ?string $navigationLabel = 'Кнопки на элементах сторисов';
     protected static ?int $navigationSort = 2;
 
@@ -32,33 +32,50 @@ class StoryItemButtonResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('button_text')
-                    ->url(function($record) {
-                        return env('APP_URL') . '/storage/' . $record->media_url;
-                    })
-                    ->openUrlInNewTab()
+                Tables\Columns\TextInputColumn::make('button_text')
+                    ->rules(['required', 'string', 'min:1','max:255'])
                     ->label('Текст кнопки')
                     ->searchable(),
-                Tables\Columns\IconColumn::make('is_active')
+                Tables\Columns\ImageColumn::make('media_url')
+                    ->url(function($record) {
+                        return config('app.url') . '/storage/' . $record->media_url;
+                    })
+                    ->openUrlInNewTab()
+                    ->disk('public')
+                    ->square()
+                    ->alignCenter()
+                    ->width(200)
+                    ->height(350)
+                    ->label('Медиа для кнопки'),
+                Tables\Columns\ToggleColumn::make('is_active')
                     ->sortable()
                     ->label('Активна')
-                    ->boolean(),
-                Tables\Columns\TextColumn::make('storyItem.name')
-                    ->searchable()
-                    ->url(function ($record) {
-                        return env('APP_URL') . '/admin/story-items/' . $record->storyItem->id . '/edit';
+                    ->alignCenter(),
+                Tables\Columns\TextInputColumn::make('position')
+                    ->label('Позиция')
+                    ->alignCenter()
+                    ->rules(['required', 'integer', 'min:1'])
+                    ->sortable(),
+                Tables\Columns\ImageColumn::make('storyItem.file_path')
+                    ->url(function($record) {
+                        return config('app.url') . '/admin/story-items/' . $record->storyItem->id . '/edit';
                     })
                     ->openUrlInNewTab()
-                    ->label('Элемент Сториса')
-                    ->numeric(),
-                Tables\Columns\TextColumn::make('storyItem.story.title')
-                    ->searchable()
-                    ->url(function ($record) {
-                        return env('APP_URL') . '/admin/stories/' . $record->storyItem->story->id . '/edit';
-                    })
+                    ->disk('public')
+                    ->square()
+                    ->alignCenter()
+                    ->width(200)
+                    ->height(350)
+                    ->label('Элемент Сториса'),
+                Tables\Columns\ImageColumn::make('storyItem.story.icon_url')
                     ->openUrlInNewTab()
                     ->label('Сторис')
-                    ->numeric(),
+                    ->url(function($record) {
+                        return config('app.url') . '/admin/stories/' . $record->storyItem->story->id . '/edit';
+                    })
+                    ->size(175)
+                    ->alignCenter()
+                    ->openUrlInNewTab(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()

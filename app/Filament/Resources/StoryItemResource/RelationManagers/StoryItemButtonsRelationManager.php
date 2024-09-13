@@ -30,15 +30,15 @@ class StoryItemButtonsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('button_text')
             ->columns([
-                Tables\Columns\TextColumn::make('button_text')
-                    ->url(function($record) {
-                        return env('APP_URL') . '/storage/' . $record->media_url;
-                    })
-                    ->openUrlInNewTab()
+                Tables\Columns\TextInputColumn::make('button_text')
+                    ->rules(['required', 'string', 'min:1', 'max:255'])
                     ->label('Текст кнопки'),
-                Tables\Columns\IconColumn::make('is_active')
-                    ->label('Активна')
-                    ->boolean(),
+                Tables\Columns\ToggleColumn::make('is_active')
+                    ->label('Активна'),
+                Tables\Columns\TextInputColumn::make('position')
+                    ->label('Позиция')
+                    ->rules(['required', 'integer', 'min:1'])
+                    ->sortable(),
             ])
             ->filters([
                 //

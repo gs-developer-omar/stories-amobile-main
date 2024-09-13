@@ -20,7 +20,7 @@ use Illuminate\Database\Eloquent\SoftDeletingScope;
 class StoryItemResource extends Resource
 {
     protected static ?string $model = StoryItem::class;
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-photo';
     protected static ?string $navigationLabel = 'Элементы сторисов';
     protected static ?int $navigationSort = 1;
 
@@ -34,20 +34,20 @@ class StoryItemResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('name')
+                Tables\Columns\TextInputColumn::make('name')
+                    ->label('Название элемента сториса')
+                    ->searchable(),
+                Tables\Columns\ImageColumn::make('file_path')
                     ->url(function($record) {
-                        return env('APP_URL') . '/storage/' . $record->file_path;
+                        return config('app.url') . '/storage/' . $record->file_path;
                     })
                     ->openUrlInNewTab()
-                    ->label('Название элемента')
-                    ->searchable(),
-                Tables\Columns\TextColumn::make('story.title')
-                    ->searchable()
-                    ->label('Сторис')
-                    ->url(function($record) {
-                        return env('APP_URL') . '/admin/stories/' . $record->story->id . '/edit';
-                    })
-                    ->openUrlInNewTab(),
+                    ->disk('public')
+                    ->square()
+                    ->alignCenter()
+                    ->width(200)
+                    ->height(350)
+                    ->label('Медиа'),
                 Tables\Columns\ToggleColumn::make('is_published')
                     ->sortable()
                     ->label('Опубликован')
@@ -55,8 +55,17 @@ class StoryItemResource extends Resource
                 Tables\Columns\TextInputColumn::make('position')
                     ->label('Позиция')
                     ->alignCenter()
-                    ->rules(['required', 'integer'])
+                    ->rules(['required', 'integer', 'min:1'])
                     ->sortable(),
+                Tables\Columns\ImageColumn::make('story.icon_url')
+                    ->openUrlInNewTab()
+                    ->label('Сторис')
+                    ->url(function($record) {
+                        return config('app.url') . '/admin/stories/' . $record->story->id . '/edit';
+                    })
+                    ->size(175)
+                    ->alignCenter()
+                    ->openUrlInNewTab(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()

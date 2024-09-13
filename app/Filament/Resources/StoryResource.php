@@ -7,6 +7,7 @@ use App\Filament\Resources\StoryResource\RelationManagers;
 use App\Models\Story;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
+use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
 
@@ -14,7 +15,7 @@ class StoryResource extends Resource
 {
     protected static ?string $model = Story::class;
 
-    protected static ?string $navigationIcon = 'heroicon-o-rectangle-stack';
+    protected static ?string $navigationIcon = 'heroicon-o-camera';
     protected static ?string $navigationLabel = 'Сторисы';
     protected static ?int $navigationSort = 0;
     public static function getNavigationBadge(): ?string
@@ -23,7 +24,7 @@ class StoryResource extends Resource
     }
     public static function getNavigationBadgeColor(): string|array|null
     {
-        return 'success';
+        return Color::Fuchsia;
     }
 
     public static function form(Form $form): Form
@@ -36,17 +37,21 @@ class StoryResource extends Resource
     {
         return $table
             ->columns([
-                Tables\Columns\TextColumn::make('title')
+                Tables\Columns\TextInputColumn::make('title')
                     ->label('Название Сториса')
-                    ->wrap()
                     ->alignStart()
+//                    ->type('text')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('icon_url')
+                    ->url(function($record) {
+                        return config('app.url') . '/storage/' . $record->icon_url;
+                    })
+                    ->openUrlInNewTab()
                     ->label('Иконка')
                     ->disk('public')
                     ->alignCenter()
-                    ->size(150)
-                    ->defaultImageUrl(fn($record) => env('APP_URL') . '/trash/iconDefault.webp'),
+                    ->size(175)
+                    ->defaultImageUrl(fn($record) => config('app.url') . '/trash/iconDefault.webp'),
                 Tables\Columns\ToggleColumn::make('is_published')
                     ->sortable()
                     ->label('Опубликован')
@@ -56,6 +61,16 @@ class StoryResource extends Resource
                     ->alignCenter()
                     ->rules(['required', 'integer', 'min:1'])
                     ->sortable(),
+                Tables\Columns\TextColumn::make('likes_count')
+                    ->label('Лайки')
+                    ->icon('heroicon-o-hand-thumb-up')
+                    ->color(Color::Rose)
+                    ->alignCenter(),
+                Tables\Columns\TextColumn::make('views_count')
+                    ->label('Просмотры')
+                    ->icon('heroicon-o-eye')
+                    ->alignCenter()
+                    ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()

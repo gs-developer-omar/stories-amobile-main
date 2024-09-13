@@ -3,13 +3,13 @@
 namespace App\Models;
 
 use App\Enums\MediaType;
+use App\Http\Filters\v1\QueryFilter;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
-use Filament\Forms\Components\Section;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Tabs;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -53,6 +53,11 @@ class StoryItem extends Model
         });
     }
 
+    public function scopeFilter(Builder $builder, QueryFilter $filters)
+    {
+        return $filters->apply($builder);
+    }
+
     public static function getForm($story_id = null): array
     {
         return [
@@ -62,20 +67,19 @@ class StoryItem extends Model
                 ->schema([
                     TextInput::make('name')
                         ->label('Название элемента')
-                        ->default('Шаг 1')
                         ->required(),
-                    Select::make('story_id')
-                        ->label('Сторис')
-                        ->hidden(fn() => $story_id !== null)
-                        ->relationship('story', 'title')
-                        ->required(),
+                    TextInput::make('position')
+                        ->label('Позиция')
+                        ->minValue(1)
+                        ->required()
+                        ->numeric(),
                 ]),
-            TextInput::make('position')
-                ->label('Позиция')
-                ->minValue(1)
+            Select::make('story_id')
+                ->label('Сторис')
                 ->columnSpanFull()
-                ->required()
-                ->numeric(),
+                ->hidden(fn() => $story_id !== null)
+                ->relationship('story', 'title')
+                ->required(),
             FileUpload::make('file_path')
                 ->label('Медиа')
                 ->directory('stories/items')

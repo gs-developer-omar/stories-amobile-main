@@ -32,11 +32,8 @@ class StoryItemsRelationManager extends RelationManager
         return $table
             ->recordTitleAttribute('name')
             ->columns([
-                Tables\Columns\TextColumn::make('name')
-                    ->url(function($record) {
-                        return env('APP_URL') . '/storage/' . $record->file_path;
-                    })
-                    ->openUrlInNewTab()
+                Tables\Columns\TextInputColumn::make('name')
+                    ->rules(['required', 'string', 'min:1', 'max:255'])
                     ->label('Название элемента'),
                 Tables\Columns\ToggleColumn::make('is_published')
                     ->label('Опубликован'),

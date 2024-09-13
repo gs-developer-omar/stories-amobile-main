@@ -2,11 +2,12 @@
 
 namespace App\Models;
 
+use App\Http\Filters\v1\QueryFilter;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
-use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -25,6 +26,7 @@ class StoryItemButton extends Model
         'id' => 'integer',
         'is_active' => 'boolean',
         'story_item_id' => 'integer',
+        'position' => 'integer'
     ];
 
     public function storyItem(): BelongsTo
@@ -43,6 +45,11 @@ class StoryItemButton extends Model
         });
     }
 
+    public function scopeFilter(Builder $builder, QueryFilter $filters)
+    {
+        return $filters->apply($builder);
+    }
+
     public static function getForm($story_item_id = null): array
     {
         return [
@@ -50,9 +57,14 @@ class StoryItemButton extends Model
                 ->label('Текст кнопки')
                 ->required()
                 ->maxLength(255),
+            TextInput::make('position')
+                ->label('Позиция')
+                ->required()
+                ->numeric(),
             Select::make('story_item_id')
                 ->hidden(fn() => $story_item_id !== null)
                 ->label('Элемент Сториса')
+                ->columnSpanFull()
                 ->relationship('storyItem', 'name')
                 ->required(),
             FileUpload::make('media_url')
