@@ -81,7 +81,7 @@ use App\Http\Controllers\api\v1\ApiController;
  *                       type="array",
  *                       @OA\Items(
  *                           type="object",
- *                           @OA\Property(property="id", type="integer", example=2),
+ *                           @OA\Property(property="element_id", type="integer", example=2),
  *                           @OA\Property(property="title", type="string", example="Тестовый Сторис"),
  *                       @OA\Property(property="media_type", type="string", example="media_file"),
  * *                       @OA\Property(property="file_path", type="string", example="http://stories.test/storage/stories/items/01J7BMT94V1W2D0MFYPFWEAWEB.webp"),
@@ -147,7 +147,7 @@ use App\Http\Controllers\api\v1\ApiController;
  *                   @OA\Property(
  *                       property="data",
  *                       type="object",
- *                       @OA\Property(property="id", type="integer", example=21),
+ *                       @OA\Property(property="element_id", type="integer", example=21),
  *                       @OA\Property(property="title", type="string", example="Тестовый Элемент Сториса"),
  *                       @OA\Property(property="media_type", type="string", example="media_file"),
  *                       @OA\Property(property="file_path", type="string", example="http://stories.test/storage/stories/items/01J7BMT94V1W2D0MFYPFWEAWEB.webp"),

@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\v1;
 
-use App\Models\StoryItemButton;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,7 +22,7 @@ class StoryItemResource extends JsonResource
             $storyItemButtons = StoryItemButtonResource::collection($storyItemButtons->sortBy('position')->where('is_active', 1));
         }
         return [
-            'id' => $this->id,
+            'element_id' => $this->id,
             'title' => $this->name,
             'media_type' => $this->media_type,
             'link' => $this->when($this->media_type === 'link', $this->link),

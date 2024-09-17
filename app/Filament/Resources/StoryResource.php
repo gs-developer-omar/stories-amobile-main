@@ -10,6 +10,7 @@ use Filament\Resources\Resource;
 use Filament\Support\Colors\Color;
 use Filament\Tables;
 use Filament\Tables\Table;
+use Illuminate\Database\Eloquent\Builder;
 
 class StoryResource extends Resource
 {
@@ -82,6 +83,7 @@ class StoryResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort('position', 'desc')
             ->filters([
                 //
             ])

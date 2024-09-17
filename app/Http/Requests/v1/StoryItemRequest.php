@@ -2,7 +2,7 @@
 
 namespace App\Http\Requests\v1;
 
-use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class StoryItemRequest extends BaseStoriesRequest
 {
@@ -21,6 +21,24 @@ class StoryItemRequest extends BaseStoriesRequest
      */
     public function rules(): array
     {
-        return parent::rules();
+        return [
+            'include' => [
+                'string',
+                Rule::in(['storyItemButtons'])
+            ],
+            'sort' => [
+                'string',
+                Rule::in(['position', '-position', 'title', '-title'])
+            ],
+            'id' => [
+                'integer',
+                'min:0',
+                'max:10000',
+            ],
+            'is_published' => [
+                'string',
+                Rule::in(['true', 'false'])
+            ]
+        ];
     }
 }

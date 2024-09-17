@@ -556,7 +556,7 @@
                                             "type": "array",
                                             "items": {
                                                 "properties": {
-                                                    "id": {
+                                                    "element_id": {
                                                         "type": "integer",
                                                         "example": 2
                                                     },
@@ -660,7 +660,7 @@
                                     "properties": {
                                         "data": {
                                             "properties": {
-                                                "id": {
+                                                "element_id": {
                                                     "type": "integer",
                                                     "example": 21
                                                 },
