@@ -157,11 +157,11 @@ use App\Http\Controllers\api\v1\ApiController;
  *           ),
  *           @OA\RequestBody(
  *                @OA\JsonContent(
- *                    allOf={
+ *                    allOf={{
  *                        @OA\Schema(
  *                            @OA\Property(property="phone", type="string", example="7000801")
  *                        )
- *                    }
+ *                    }}
  *                )
  *           ),
  *           @OA\Response(
@@ -202,16 +202,16 @@ use App\Http\Controllers\api\v1\ApiController;
  *            ),
  *            @OA\RequestBody(
  *                 @OA\JsonContent(
- *                     allOf={
+ *                     allOf={{
  *                         @OA\Schema(
  *                             @OA\Property(property="phone", type="string", example="7000801")
  *                         )
- *                     }
+ *                     }}
  *                 )
  *            ),
  *            @OA\Response(
- *                response=201,
- *                description="Created",
+ *                response=200,
+ *                description="Updated",
  *                @OA\JsonContent(
  *                    @OA\Property(property="message", type="string", example="Лайк сториса был успешно создан."),
  *                    @OA\Property(property="event", type="string", example="created"),
