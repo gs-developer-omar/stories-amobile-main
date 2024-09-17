@@ -25,7 +25,9 @@ class StoryItemResource extends JsonResource
         return [
             'id' => $this->id,
             'title' => $this->name,
-            'file_path' => $storage_path . $this->file_path,
+            'media_type' => $this->media_type,
+            'link' => $this->when($this->media_type === 'link', $this->link),
+            'file_path' => $this->when($this->media_type === 'media_file', $storage_path . $this->file_path),
             'position' => $this->position,
             'is_published' => $this->is_published,
             'storyItemButtons' => $storyItemButtons,

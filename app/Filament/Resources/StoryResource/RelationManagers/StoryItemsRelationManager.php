@@ -35,6 +35,17 @@ class StoryItemsRelationManager extends RelationManager
                 Tables\Columns\TextInputColumn::make('name')
                     ->rules(['required', 'string', 'min:1', 'max:255'])
                     ->label('Название элемента'),
+                Tables\Columns\ImageColumn::make('file_path')
+                    ->url(function($record) {
+                        return config('app.url') . '/storage/' . $record->file_path;
+                    })
+                    ->openUrlInNewTab()
+                    ->disk('public')
+                    ->square()
+                    ->alignCenter()
+                    ->width(200)
+                    ->height(350)
+                    ->label('Медиа'),
                 Tables\Columns\ToggleColumn::make('is_published')
                     ->label('Опубликован'),
                 Tables\Columns\TextInputColumn::make('position')

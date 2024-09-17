@@ -36,7 +36,7 @@ use App\Http\Controllers\api\v1\ApiController;
  *          description="Сортировка данных
  * Сортируемые поля: 'title', 'position'. Если передать значение без знака, отсортирует в порядке возрастания, если со знаком минус (-title), отсортирует в порядке убывания.",
  *          required=false,
- *          example="position",
+ *          example="-position",
  *          in="query",
  *          @OA\Schema(
  *              type="string"

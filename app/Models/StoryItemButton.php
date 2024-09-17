@@ -38,7 +38,10 @@ class StoryItemButton extends Model
     {
         parent::boot();
         static::deleting(function ($storyItemButton) {
-            if ($storyItemButton->file_path) {
+            if ($storyItemButton->media_url === 'trash/IconDefault.webp') {
+                return;
+            }
+            if ($storyItemButton->media_url) {
                 // Удаление файла, если он существует
                 Storage::disk('public')->delete($storyItemButton->media_url);
             }
@@ -68,6 +71,7 @@ class StoryItemButton extends Model
                 ->relationship('storyItem', 'name')
                 ->required(),
             FileUpload::make('media_url')
+                ->downloadable()
                 ->label('Медиа')
                 ->directory('stories/items/buttons')
                 ->required()

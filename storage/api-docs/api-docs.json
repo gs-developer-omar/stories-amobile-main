@@ -42,7 +42,7 @@
                         "schema": {
                             "type": "string"
                         },
-                        "example": "position"
+                        "example": "-position"
                     },
                     {
                         "name": "id",
@@ -564,9 +564,17 @@
                                                         "type": "string",
                                                         "example": "Тестовый Сторис"
                                                     },
+                                                    "media_type": {
+                                                        "type": "string",
+                                                        "example": "media_file"
+                                                    },
                                                     "file_path": {
                                                         "type": "string",
                                                         "example": "http://stories.test/storage/stories/items/01J7BMT94V1W2D0MFYPFWEAWEB.webp"
+                                                    },
+                                                    "link": {
+                                                        "type": "string",
+                                                        "example": "https://www.instagram.com/p/CRYgfzNnoST/?utm_medium=copy_link"
                                                     },
                                                     "position": {
                                                         "type": "integer",
@@ -660,9 +668,17 @@
                                                     "type": "string",
                                                     "example": "Тестовый Элемент Сториса"
                                                 },
+                                                "media_type": {
+                                                    "type": "string",
+                                                    "example": "media_file"
+                                                },
                                                 "file_path": {
                                                     "type": "string",
                                                     "example": "http://stories.test/storage/stories/items/01J7BMT94V1W2D0MFYPFWEAWEB.webp"
+                                                },
+                                                "link": {
+                                                    "type": "string",
+                                                    "example": "https://www.instagram.com/p/CRYgfzNnoST/?utm_medium=copy_link"
                                                 },
                                                 "position": {
                                                     "type": "integer",

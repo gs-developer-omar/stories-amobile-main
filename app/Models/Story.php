@@ -56,6 +56,9 @@ class Story extends Model
     {
         parent::boot();
         static::deleted(function ($story) {
+            if ($story->icon_url === 'trash/IconDefault.webp') {
+                return;
+            }
             if ($story->icon_url) {
                 // Удаление файла, если он существует
                 Storage::disk('public')->delete($story->icon_url);
@@ -80,6 +83,7 @@ class Story extends Model
                 ->required()
                 ->numeric(),
             FileUpload::make('icon_url')
+                ->downloadable()
                 ->label('Иконка')
                 ->directory('stories/icons')
                 ->required()

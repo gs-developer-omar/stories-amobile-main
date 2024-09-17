@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('story_items', function (Blueprint $table) {
             $table->id();
             $table->string('name', 255);
-            $table->text('file_path');
-            $table->unsignedInteger('position');
+            $table->text('file_path')->default('trash/IconDefault.webp')->nullable();
+            $table->unsignedInteger('position')->default(1);
             $table->boolean('is_published')->default(false);
             $table->foreignId('story_id');
             $table->timestamps();

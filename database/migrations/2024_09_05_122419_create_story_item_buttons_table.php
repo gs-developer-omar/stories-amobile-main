@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('story_item_buttons', function (Blueprint $table) {
             $table->id();
             $table->string('button_text', 255);
-            $table->text('media_url');
+            $table->text('media_url')->default('trash/IconDefault.webp')->nullable();
             $table->boolean('is_active')->default(false);
             $table->foreignId('story_item_id');
             $table->timestamps();

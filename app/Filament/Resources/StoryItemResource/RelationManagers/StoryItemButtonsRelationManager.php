@@ -3,14 +3,11 @@
 namespace App\Filament\Resources\StoryItemResource\RelationManagers;
 
 use App\Models\StoryItemButton;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\RelationManagers\RelationManager;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class StoryItemButtonsRelationManager extends RelationManager
 {
@@ -33,6 +30,17 @@ class StoryItemButtonsRelationManager extends RelationManager
                 Tables\Columns\TextInputColumn::make('button_text')
                     ->rules(['required', 'string', 'min:1', 'max:255'])
                     ->label('Текст кнопки'),
+                Tables\Columns\ImageColumn::make('media_url')
+                    ->url(function($record) {
+                        return config('app.url') . '/storage/' . $record->media_url;
+                    })
+                    ->openUrlInNewTab()
+                    ->disk('public')
+                    ->square()
+                    ->alignCenter()
+                    ->width(200)
+                    ->height(350)
+                    ->label('Медиа для кнопки'),
                 Tables\Columns\ToggleColumn::make('is_active')
                     ->label('Активна'),
                 Tables\Columns\TextInputColumn::make('position')

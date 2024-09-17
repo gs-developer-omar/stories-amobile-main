@@ -14,8 +14,8 @@ return new class extends Migration
         Schema::create('stories', function (Blueprint $table) {
             $table->id();
             $table->string('title', 255);
-            $table->text('icon_url');
-            $table->unsignedInteger('position');
+            $table->text('icon_url')->default('trash/IconDefault.webp')->nullable();
+            $table->unsignedInteger('position')->default(1);
             $table->boolean('is_published')->default(false);
             $table->timestamps();
         });

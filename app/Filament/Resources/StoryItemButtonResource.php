@@ -4,15 +4,11 @@ namespace App\Filament\Resources;
 
 use App\Filament\Resources\StoryItemButtonResource\Pages;
 use App\Filament\Resources\StoryItemButtonResource\RelationManagers;
-use App\Models\StoryItem;
 use App\Models\StoryItemButton;
-use Filament\Forms;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
 use Filament\Tables\Table;
-use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\SoftDeletingScope;
 
 class StoryItemButtonResource extends Resource
 {
@@ -66,7 +62,8 @@ class StoryItemButtonResource extends Resource
                     ->alignCenter()
                     ->width(200)
                     ->height(350)
-                    ->label('Элемент Сториса'),
+                    ->label('Элемент Сториса')
+                    ->sortable(),
                 Tables\Columns\ImageColumn::make('storyItem.story.icon_url')
                     ->openUrlInNewTab()
                     ->label('Сторис')
@@ -75,7 +72,8 @@ class StoryItemButtonResource extends Resource
                     })
                     ->size(175)
                     ->alignCenter()
-                    ->openUrlInNewTab(),
+                    ->openUrlInNewTab()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('created_at')
                     ->label('Дата создания')
                     ->dateTime()
