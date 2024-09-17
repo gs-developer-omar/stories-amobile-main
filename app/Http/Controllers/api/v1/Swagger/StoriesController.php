@@ -229,26 +229,6 @@ use App\Http\Controllers\api\v1\ApiController;
  *                    ),
  *                ),
  *            ),
- *            @OA\Response(
- *                    response=200,
- *                    description="Ok",
- *                    @OA\JsonContent(
- *                        @OA\Property(property="message", type="string", example="Лайк сториса был успешно удален."),
- *                        @OA\Property(property="event", type="string", example="deleted"),
- *                        @OA\Property(property="phone", type="string", example="7000801"),
- *                        @OA\Property(
- *                            property="story",
- *                            type="object",
- *                            @OA\Property(property="id", type="integer", example=2),
- *                            @OA\Property(property="title", type="string", example="Тестовый Сторис"),
- *                            @OA\Property(property="icon_url", type="string", example="http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"),
- *                            @OA\Property(property="position", type="integer", example=1),
- *                            @OA\Property(property="is_published", type="boolean", example=true),
- *                            @OA\Property(property="likes_count", type="integer", example=2),
- *                            @OA\Property(property="views_count", type="integer", example=1),
- *                        ),
- *                    ),
- *            ),
  *   ),
  */
 class StoriesController extends ApiController
