@@ -21,7 +21,8 @@ class StoryItemButtonRequest extends BaseStoriesRequest
      */
     public function rules(): array
     {
-        return [
+        $parent_rules = parent::rules();
+        $child_rules = [
             'sort' => [
                 'string',
                 Rule::in(['position', '-position', 'title', '-title'])
@@ -36,5 +37,6 @@ class StoryItemButtonRequest extends BaseStoriesRequest
                 Rule::in(['true', 'false'])
             ]
         ];
+        return array_merge($parent_rules, $child_rules);
     }
 }

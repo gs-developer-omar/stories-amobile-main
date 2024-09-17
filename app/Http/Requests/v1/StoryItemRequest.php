@@ -21,7 +21,8 @@ class StoryItemRequest extends BaseStoriesRequest
      */
     public function rules(): array
     {
-        return [
+        $parent_rules = parent::rules();
+        $child_rules = [
             'include' => [
                 'string',
                 Rule::in(['storyItemButtons'])
@@ -40,5 +41,6 @@ class StoryItemRequest extends BaseStoriesRequest
                 Rule::in(['true', 'false'])
             ]
         ];
+        return array_merge($parent_rules, $child_rules);
     }
 }
