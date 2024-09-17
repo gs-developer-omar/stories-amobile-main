@@ -22,7 +22,7 @@ class ApiExceptions
     {
         return response()->json([
             'error' => [
-                'type' => basename(get_class($e)),
+                'type' => class_basename(get_class($e)),
                 'status' => 401,
                 'message' => $e->getMessage()
             ]
@@ -34,7 +34,7 @@ class ApiExceptions
         foreach ($e->errors() as $key => $value)
             foreach ($value as $message) {
                 $errors[] = [
-                    'type' => basename(get_class($e)),
+                    'type' => class_basename(get_class($e)),
                     'status' => 422,
                     'message' => $message,
                 ];
@@ -49,7 +49,7 @@ class ApiExceptions
     {
         return response()->json([
             'error' => [
-                'type' => basename(get_class($e)),
+                'type' => class_basename(get_class($e)),
                 'status' => 404,
                 'message' => 'Not Found ' . $request->getRequestUri()
             ]
