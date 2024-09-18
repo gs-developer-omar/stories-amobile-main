@@ -12,6 +12,7 @@ use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
+use Illuminate\Support\Str;
 
 class StoryItemsRelationManager extends RelationManager
 {
@@ -36,7 +37,16 @@ class StoryItemsRelationManager extends RelationManager
                     ->rules(['required', 'string', 'min:1', 'max:255'])
                     ->label('Название элемента'),
                 Tables\Columns\ImageColumn::make('file_path')
+                    ->getStateUsing(function ($record) {
+                        if ($record->media_type === 'link' || Str::endsWith($record->file_path, '.mp4')) {
+                            return config('app.url') . '/storage/trash/LINK_LOGO_CAT.jpg';
+                        }
+                        return config('app.url') . '/storage/' . $record->file_path;
+                    })
                     ->url(function($record) {
+                        if ($record->media_type === 'link') {
+                            return $record->link;
+                        }
                         return config('app.url') . '/storage/' . $record->file_path;
                     })
                     ->openUrlInNewTab()
