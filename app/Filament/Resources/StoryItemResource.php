@@ -96,7 +96,7 @@ class StoryItemResource extends Resource
             ])
             ->defaultSort(function($query) {
                 return $query->join('stories', 'story_items.story_id', '=', 'stories.id')
-                ->select('story_items.*', 'stories.position')
+                    ->select('story_items.*', 'stories.position as story_position', 'story_items.position as item_position')
                     ->orderBy('stories.position', 'desc')
                     ->orderBy('story_items.position');
             })
