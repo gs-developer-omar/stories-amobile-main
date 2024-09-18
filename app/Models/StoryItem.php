@@ -21,6 +21,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class StoryItem extends Model
 {
@@ -140,10 +141,10 @@ class StoryItem extends Model
             TextInputColumn::make('name')
                 ->label('Название элемента сториса')
                 ->searchable(),
-            'file_path' => ImageColumn::make('file_path')
+            ImageColumn::make('file_path')
                 ->getStateUsing(function ($record) {
-                    if ($record->media_type === 'link') {
-                        return $record->link;
+                    if ($record->media_type === 'link' || Str::endsWith($record->file_path, '.mp4')) {
+                        return config('app.url') . '/storage/trash/LINK_LOGO_CAT.jpg';
                     }
                     return config('app.url') . '/storage/' . $record->file_path;
                 })
