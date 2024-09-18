@@ -96,7 +96,7 @@ class StoryItemResource extends Resource
             ])
             ->filters([
                 Tables\Filters\Filter::make('is_published')
-                    ->label('Опубликованы')
+                    ->label('Опубликован')
                     ->query(function($query){
                         return $query->where('is_published', true);
                     }),
