@@ -94,6 +94,12 @@ class StoryItemResource extends Resource
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
+            ->defaultSort(function($query) {
+                return $query->join('stories', 'story_items.story_id', '=', 'stories.id')
+                ->select('story_items.*', 'stories.position')
+                    ->orderBy('stories.position', 'desc')
+                    ->orderBy('story_items.position');
+            })
             ->filters([
                 Tables\Filters\Filter::make('is_published')
                     ->label('Опубликованы')
