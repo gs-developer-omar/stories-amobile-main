@@ -31,6 +31,15 @@ class StoryItemResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+//            ->deferFilters()
+//            ->filtersApplyAction(
+//                fn ($action) => $action
+//                    ->label('Применить'),
+//            )
+            ->persistFiltersInSession()
+            ->filtersTriggerAction(function($action) {
+                return $action->button()->label('Фильтры');
+            })
             ->columns([
                 TextInputColumn::make('name')
                     ->label('Название элемента сториса')
@@ -86,7 +95,17 @@ class StoryItemResource extends Resource
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
-                //
+                Tables\Filters\Filter::make('is_published')
+                    ->label('Опубликованы')
+                    ->query(function($query){
+                        return $query->where('is_published', true);
+                    }),
+                Tables\Filters\SelectFilter::make('story')
+                    ->label('Сторис')
+                    ->relationship('story', 'title')
+                    ->multiple()
+                    ->searchable()
+                    ->preload(),
             ])
             ->actions([
                 Tables\Actions\EditAction::make(),

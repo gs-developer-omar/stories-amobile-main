@@ -37,11 +37,14 @@ class StoryResource extends Resource
     public static function table(Table $table): Table
     {
         return $table
+//            ->persistFiltersInSession()
+//            ->filtersTriggerAction(function($action) {
+//                return $action->button()->label('Фильтры');
+//            })
             ->columns([
                 Tables\Columns\TextInputColumn::make('title')
                     ->label('Название Сториса')
                     ->alignStart()
-//                    ->type('text')
                     ->searchable(),
                 Tables\Columns\ImageColumn::make('icon_url')
                     ->url(function($record) {
