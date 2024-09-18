@@ -18,13 +18,13 @@ class ApiKeyAuthMiddleware
         $api_key = $request->header('apiKey') ?? null;
 
         if ($api_key === null) {
-            return json(['message' => 'Отсутствует параметр безопасности.'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['message' => 'Отсутствует параметр безопасности.'], Response::HTTP_UNAUTHORIZED);
         }
 
         if ($api_key !== config('app.api_key')) {
-            return json(['message' => 'Неверный параметр безопасности.'], Response::HTTP_UNAUTHORIZED);
+            return response()->json(['message' => 'Неверный параметр безопасности.'], Response::HTTP_UNAUTHORIZED);
         }
-
+        
         return $next($request);
     }
 }
