@@ -66,10 +66,20 @@ class StoryResource extends Resource
                     ->label('Лайки')
                     ->icon('heroicon-o-hand-thumb-up')
                     ->color(Color::Rose)
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query
+                            ->withCount('likes')
+                            ->orderBy('likes_count', $direction);
+                    })
                     ->alignCenter(),
                 Tables\Columns\TextColumn::make('views_count')
                     ->label('Просмотры')
                     ->icon('heroicon-o-eye')
+                    ->sortable(query: function (Builder $query, string $direction): Builder {
+                        return $query
+                            ->withCount('views')
+                            ->orderBy('views_count', $direction);
+                    })
                     ->alignCenter()
                     ->badge(),
                 Tables\Columns\TextColumn::make('created_at')
