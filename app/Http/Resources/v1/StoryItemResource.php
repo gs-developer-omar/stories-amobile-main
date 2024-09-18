@@ -29,6 +29,7 @@ class StoryItemResource extends JsonResource
             'file_path' => $this->when($this->media_type === 'media_file', $storage_path . $this->file_path),
             'position' => $this->position,
             'is_published' => $this->is_published,
+            'question' => $this->when(!empty($this->question), $this->question),
             'storyItemButtons' => $storyItemButtons,
         ];
     }
