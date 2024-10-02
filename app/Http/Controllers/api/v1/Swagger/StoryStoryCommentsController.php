@@ -182,6 +182,14 @@ use App\Http\Controllers\api\v1\ApiController;
  *          @OA\Schema(type="integer")
  *      ),
  *      @OA\Parameter(
+ *           name="phone",
+ *           description="Номер телефона",
+ *           required=true,
+ *           example="7000801",
+ *           in="query",
+ *           @OA\Schema(type="string")
+ *      ),
+ *      @OA\Parameter(
  *          name="comment_id",
  *          description="ID комментария",
  *          required=true,

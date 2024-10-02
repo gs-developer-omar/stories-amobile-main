@@ -1133,6 +1133,16 @@
                         "example": "2"
                     },
                     {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "7000801"
+                    },
+                    {
                         "name": "comment_id",
                         "in": "path",
                         "description": "ID комментария",
