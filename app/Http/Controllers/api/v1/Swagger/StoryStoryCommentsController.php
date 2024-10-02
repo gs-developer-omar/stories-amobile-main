@@ -150,6 +150,7 @@ use App\Http\Controllers\api\v1\ApiController;
  *      @OA\RequestBody(
  *          required=true,
  *          @OA\JsonContent(
+ *              @OA\Property(property="phone", type="string", example="7000801"),
  *              @OA\Property(property="content", type="string", example="Тестовый коммент"),
  *              @OA\Property(property="parent_id", type="integer", example=1)
  *          )

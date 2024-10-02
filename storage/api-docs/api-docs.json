@@ -958,6 +958,10 @@
                         "application/json": {
                             "schema": {
                                 "properties": {
+                                    "phone": {
+                                        "type": "string",
+                                        "example": "7000801"
+                                    },
                                     "content": {
                                         "type": "string",
                                         "example": "Тестовый коммент"
