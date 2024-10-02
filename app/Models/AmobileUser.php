@@ -17,4 +17,11 @@ class AmobileUser extends Model
         'id' => 'integer',
         'phone' => 'string'
     ];
+
+    public static function authorizeAmobileUser(string $phone)
+    {
+        return self::firstOrCreate([
+            'phone' => $phone
+        ]);
+    }
 }

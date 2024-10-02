@@ -24,7 +24,7 @@ class ApiKeyAuthMiddleware
         if ($api_key !== config('app.api_key')) {
             return response()->json(['message' => 'Неверный параметр безопасности.'], Response::HTTP_UNAUTHORIZED);
         }
-        
+
         return $next($request);
     }
 }

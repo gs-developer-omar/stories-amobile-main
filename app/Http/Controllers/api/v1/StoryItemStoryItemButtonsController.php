@@ -17,12 +17,8 @@ class StoryItemStoryItemButtonsController extends ApiController
      */
     public function index(StoryItemButtonRequest $request, StoryItem $storyItem, StoryItemButtonFilter $filters): AnonymousResourceCollection
     {
-        $phone = $request->input('phone');
+        AmobileUser::authorizeAmobileUser($request->input('phone'));
 
-        AmobileUser::firstOrCreate([
-            'phone' => $phone,
-        ]);
-
-        return StoryItemButtonResource::collection(StoryItemButton::where('story_item_id', $storyItem->id)->filter($filters)->get());
+        return StoryItemButtonResource::collection(StoryItemButton::filter($filters)->where('story_item_id', $storyItem->id)->get());
     }
 }

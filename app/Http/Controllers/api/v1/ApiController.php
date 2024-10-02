@@ -5,9 +5,10 @@ namespace App\Http\Controllers\api\v1;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class ApiController extends Controller
+abstract class ApiController extends Controller
 {
-    public function include(string $relationship) : bool {
+    private function include(string $relationship): bool
+    {
         $param = request()->get('include');
 
         if (!isset($param)) {
@@ -17,5 +18,11 @@ class ApiController extends Controller
         $includeValues = explode(',', strtolower($param));
 
         return in_array(strtolower($relationship), $includeValues);
+    }
+    public function loadedRelationships(array $relationships): array
+    {
+        return array_filter($relationships, function ($relationship) {
+            return $this->include($relationship);
+        });
     }
 }

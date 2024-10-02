@@ -37,6 +37,10 @@ class StoryItem extends Model
         'question' => 'string'
     ];
 
+    public static array $relationships = [
+        'storyItemButtons'
+    ];
+
     public function story(): BelongsTo
     {
         return $this->belongsTo(Story::class);

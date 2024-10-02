@@ -17,28 +17,21 @@ class StoryStoryItemsController extends ApiController
      */
     public function index(StoryItemRequest $request, Story $story, StoryItemFilter $filters): AnonymousResourceCollection
     {
-        $phone = $request->input('phone');
-
-        AmobileUser::firstOrCreate([
-            'phone' => $phone,
-        ]);
+        AmobileUser::authorizeAmobileUser($request->input('phone'));
 
         return StoryItemResource::collection(StoryItem::where('story_id', $story->id)->filter($filters)->get());
     }
 
     public function show(StoryItemRequest $request, Story $story, string $storyItemId): StoryItemResource
     {
-        $phone = $request->input('phone');
+        AmobileUser::authorizeAmobileUser($request->input('phone'));
 
-        AmobileUser::firstOrCreate([
-            'phone' => $phone,
-        ]);
+        $storyItem = StoryItem::where([
+            'story_id' => $story->id,
+            'story_item_id' => $storyItemId
+        ])->firstOrFail();
 
-        $storyItem = StoryItem::where('story_id', $story->id)->where('id', $storyItemId)->firstOrFail();
-
-        if ($this->include('storyItemButtons')) {
-            return new StoryItemResource($storyItem->load('storyItemButtons'));
-        }
+        $storyItem->load($this->loadedRelationships(StoryItem::$relationships));
 
         return new StoryItemResource($storyItem);
     }

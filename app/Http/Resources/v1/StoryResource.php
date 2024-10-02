@@ -2,7 +2,6 @@
 
 namespace App\Http\Resources\v1;
 
-use App\Models\StoryItem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -31,6 +30,7 @@ class StoryResource extends JsonResource
             'likes_count' => $this->likes_count,
             'views_count' => $this->views_count,
             'storyItems' => $storyItems,
+            'comments' => $this->whenLoaded('comments', StoryCommentResource::collection(new StoryCommentResource($this->comments)))
         ];
     }
 }

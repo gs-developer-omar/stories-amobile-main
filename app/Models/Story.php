@@ -27,6 +27,18 @@ class Story extends Model
         'is_published' => 'boolean',
     ];
 
+    public static array $relationships = [
+        'storyItems',
+        'storyItems.storyItemButtons',
+        'comments'
+    ];
+
+    public function comments(): HasMany
+    {
+        return $this->hasMany(StoryComment::class);
+    }
+
+
     public function storyItems(): HasMany
     {
         return $this->hasMany(StoryItem::class);

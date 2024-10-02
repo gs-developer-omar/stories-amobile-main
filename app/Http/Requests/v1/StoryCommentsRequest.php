@@ -2,11 +2,11 @@
 
 namespace App\Http\Requests\v1;
 
-use App\Models\Story;
+use App\Models\StoryComment;
 use App\Rules\RelationshipsRule;
 use Illuminate\Validation\Rule;
 
-class StoryRequest extends BaseStoriesRequest
+class StoryCommentsRequest extends BaseStoriesRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -27,21 +27,27 @@ class StoryRequest extends BaseStoriesRequest
         $child_rules = [
             'include' => [
                 'string',
-                new RelationshipsRule(Story::$relationships)
+                new RelationshipsRule(StoryComment::$relationships)
             ],
             'sort' => [
                 'string',
-                Rule::in(['position', '-position', 'title', '-title'])
+                Rule::in(['updated_at', '-updated_at'])
             ],
             'id' => [
                 'integer',
                 'min:0',
                 'max:10000',
             ],
-            'is_published' => [
-                'string',
-                Rule::in(['true', 'false'])
-            ]
+            'story_id' => [
+                'integer',
+                'min:0',
+                'max:10000',
+            ],
+            'parent_id' => [
+                'integer',
+                'min:0',
+                'max:10000',
+            ],
         ];
         return array_merge($parent_rules, $child_rules);
     }
