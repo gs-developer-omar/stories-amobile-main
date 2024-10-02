@@ -15,11 +15,6 @@ class StoryCommentFilter extends QueryFilter
         return $this->builder->whereIn('id', explode(',', $value));
     }
 
-    public function story_id($value): Builder
-    {
-        return $this->builder->whereIn('story_id', explode(',', $value));
-    }
-
     public function parent_id($value): Builder
     {
         return $this->builder->whereIn('parent_id', explode(',', $value));

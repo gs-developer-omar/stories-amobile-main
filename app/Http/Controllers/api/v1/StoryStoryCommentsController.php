@@ -11,7 +11,6 @@ use App\Models\AmobileUser;
 use App\Models\Story;
 use App\Models\StoryComment;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
 class StoryStoryCommentsController extends ApiController
@@ -86,7 +85,7 @@ class StoryStoryCommentsController extends ApiController
         $storyComment->delete();
 
         return response()->json([
-            'message' => 'Story comment successfully deleted'
+            'message' => 'Комментарий к сторису был успешно удален.'
         ], 200);
     }
 }
