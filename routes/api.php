@@ -1,23 +1,31 @@
 <?php
 
-use App\Http\Controllers\api\v1\StoriesController;
-use App\Http\Controllers\api\v1\StoryItemStoryItemButtonsController;
-use App\Http\Controllers\api\v1\StoryStoryCommentsController;
-use App\Http\Controllers\api\v1\StoryStoryItemsController;
+use App\Http\Controllers\api\v1\EmojiReactionController;
+use App\Http\Controllers\api\v1\StoryController;
+use App\Http\Controllers\api\v1\StoryItemButtonController;
+use App\Http\Controllers\api\v1\StoryCommentController;
+use App\Http\Controllers\api\v1\StoryItemController;
 use Illuminate\Support\Facades\Route;
 
-Route::prefix('v1')->middleware('api_key_checkout')->group(function() {
-    Route::get('/stories', [StoriesController::class, 'index']);
-    Route::get('/stories/{story}', [StoriesController::class, 'show']);
-    Route::post('/stories/{story}/watch', [StoriesController::class, 'watchStory']);
-    Route::post('/stories/{story}/like', [StoriesController::class, 'likeStory']);
-    Route::get('/stories/{story}/story-items', [StoryStoryItemsController::class, 'index']);
-    Route::get('/stories/{story}/story-items/{storyItemId}', [StoryStoryItemsController::class, 'show']);
-    Route::get('/story-items/{storyItem}/story-item-buttons', [StoryItemStoryItemButtonsController::class, 'index']);
+Route::prefix('v1')->middleware([
+    'api_key_auth',
+    'amobile_auth'
+])->group(function() {
+    Route::get('/stories', [StoryController::class, 'index']);
+    Route::get('/stories/{story}', [StoryController::class, 'show']);
+    Route::post('/stories/{story}/watch', [StoryController::class, 'watchStory']);
+    Route::post('/stories/{story}/like', [StoryController::class, 'likeStory']);
+    Route::get('/stories/{story}/story-items', [StoryItemController::class, 'index']);
+    Route::get('/stories/{story}/story-items/{storyItemId}', [StoryItemController::class, 'show']);
+    Route::get('/story-items/{storyItem}/story-item-buttons', [StoryItemButtonController::class, 'index']);
 
-    Route::get('/stories/{story}/comments', [StoryStoryCommentsController::class, 'index']);
-    Route::get('/stories/{story}/comments/{storyCommentId}', [StoryStoryCommentsController::class, 'show']);
-    Route::post('/stories/{story}/comments', [StoryStoryCommentsController::class, 'store']);
-    Route::patch('/stories/{story}/comments/{storyComment}', [StoryStoryCommentsController::class, 'update']);
-    Route::delete('/stories/{story}/comments/{storyComment}', [StoryStoryCommentsController::class, 'destroy']);
+    Route::get('/stories/{story}/comments', [StoryCommentController::class, 'index']);
+    Route::get('/stories/{story}/comments/{storyCommentId}', [StoryCommentController::class, 'show']);
+    Route::post('/stories/{story}/comments', [StoryCommentController::class, 'store']);
+    Route::patch('/stories/{story}/comments/{storyComment}', [StoryCommentController::class, 'update']);
+    Route::delete('/stories/{story}/comments/{storyComment}', [StoryCommentController::class, 'destroy']);
+
+    Route::get('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'index']);
+    Route::post('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'addReaction']);
+    Route::delete('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'removeReaction']);
 });

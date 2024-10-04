@@ -7,9 +7,17 @@ use App\Http\Controllers\api\v1\ApiController;
 /**
  * @OA\Get(
  *     path="/api/v1/stories/{story_id}/comments",
- *     summary="Получение списка комментариев к определенному сторису.",
+ *     summary="Получение списка комментариев к определенному сторису",
  *     tags={"Comments"},
  *     security={{ "apiKeyAuth": {} }},
+ *     @OA\Parameter(
+ *         name="phone",
+ *         description="Номер телефона",
+ *         required=true,
+ *         example="7000801",
+ *         in="query",
+ *         @OA\Schema(type="string")
+ *     ),
  *     @OA\Parameter(
  *           name="story_id",
  *           description="ID сториса",
@@ -19,16 +27,8 @@ use App\Http\Controllers\api\v1\ApiController;
  *           @OA\Schema(type="integer")
  *     ),
  *     @OA\Parameter(
- *          name="phone",
- *          description="Номер телефона",
- *          required=true,
- *          example="7000801",
- *          in="query",
- *          @OA\Schema(type="string")
- *     ),
- *     @OA\Parameter(
  *          name="include",
- *          description="Связанные данные. Доступные связи: 'replies'. Связанные данные (ответы на комментарии) будут отсортированы по полю updated_at в порядке убывания.",
+ *          description="Связанные данные. Доступные связи: 'replies', 'emojis'.",
  *          required=false,
  *          example="replies",
  *          in="query",
@@ -81,9 +81,17 @@ use App\Http\Controllers\api\v1\ApiController;
  *
  * @OA\Get(
  *      path="/api/v1/stories/{story_id}/comments/{comment_id}",
- *      summary="Получение комментария по id к определенному сторису",
+ *      summary="Получение комментария по ID к определенному сторису",
  *      tags={"Comments"},
  *      security={{ "apiKeyAuth": {} }},
+ *      @OA\Parameter(
+ *         name="phone",
+ *         description="Номер телефона",
+ *         required=true,
+ *         example="7000801",
+ *         in="query",
+ *         @OA\Schema(type="string")
+ *      ),
  *      @OA\Parameter(
  *          name="story_id",
  *          description="ID сториса",
@@ -101,16 +109,8 @@ use App\Http\Controllers\api\v1\ApiController;
  *          @OA\Schema(type="integer")
  *      ),
  *      @OA\Parameter(
- *          name="phone",
- *          description="Номер телефона",
- *          required=true,
- *          example="7000801",
- *          in="query",
- *          @OA\Schema(type="string")
- *      ),
- *      @OA\Parameter(
  *          name="include",
- *          description="Связанные данные. Доступные связи: 'replies'. Связанные данные (ответы на комментарии) будут отсортированы по полю updated_at в порядке убывания.",
+ *          description="Связанные данные. Доступные связи: 'replies', 'emojis'.",
  *          required=false,
  *          example="replies",
  *          in="query",
@@ -159,14 +159,20 @@ use App\Http\Controllers\api\v1\ApiController;
  *          response=201,
  *          description="Created",
  *          @OA\JsonContent(
- *              @OA\Property(property="id", type="integer", example=3),
- *              @OA\Property(property="story_id", type="integer", example=2),
+ *              @OA\Property(property="event", type="string", example="CREATED"),
+ *              @OA\Property(property="message", type="string", example="Комментарий к сторису был успешно создан"),
+ *              @OA\Property(
+ *              property="data",
+ *              type="object",
+ *              @OA\Property(property="id", type="integer", example="42"),
+ *              @OA\Property(property="story_id", type="integer", example="1"),
  *              @OA\Property(property="phone", type="string", example="7000801"),
- *              @OA\Property(property="content", type="string", example="Тестовый комментарий"),
- *              @OA\Property(property="updated_at", type="string", example="16:48:54 27-09-2024"),
- *              @OA\Property(property="parent_id", type="integer", example=null)
- *          )
- *      )
+ *              @OA\Property(property="content", type="string", example="TEST TEST COMMENT"),
+ *              @OA\Property(property="updated_at", type="string", example="14:20:12 04-10-2024"),
+ *              @OA\Property(property="parent_id", type="integer", example=null),
+ *              ),
+ *          ),
+ *      ),
  * ),
  *
  * @OA\DELETE(
@@ -198,15 +204,23 @@ use App\Http\Controllers\api\v1\ApiController;
  *          in="path",
  *          @OA\Schema(type="integer")
  *      ),
- *      @OA\Response(
- *          response=200,
- *          description="Ok",
- *          @OA\JsonContent(
- *              @OA\Property(property="message", type="string", example="Комментарий к сторису был успешно удален.")
- *          )
- *      )
+ *     @OA\Response(
+ *           response=201,
+ *           description="Created",
+ *           @OA\JsonContent(
+ *               @OA\Property(property="event", type="string", example="DELETED"),
+ *               @OA\Property(property="message", type="string", example="Комментарий к сторису был успешно удален"),
+ *               @OA\Property(
+ *               property="data",
+ *               type="object",
+ *               @OA\Property(property="phone", type="string", example="7000801"),
+ *               @OA\Property(property="story_id", type="integer", example="1"),
+ *               @OA\Property(property="comment_id", type="integer", example="42"),
+ *               ),
+ *           ),
+ *       ),
  * )
  */
-class StoryStoryCommentsController extends ApiController
+class D_StoryCommentController extends ApiController
 {
 }

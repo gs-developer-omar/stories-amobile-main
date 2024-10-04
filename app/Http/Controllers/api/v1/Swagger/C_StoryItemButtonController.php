@@ -7,9 +7,19 @@ use App\Http\Controllers\api\v1\ApiController;
 /**
  * @OA\Get(
  *     path="/api/v1/story-items/{story_item_id}/story-item-buttons",
- *     summary="Получение списка кнопок для элемента сториса через story_item_id",
+ *     summary="Получение списка кнопок для элемента сториса",
  *     tags={ "Story" },
  *     security={{ "apiKeyAuth": {} }},
+ *     @OA\Parameter(
+ *        name="phone",
+ *        description="",
+ *        required=true,
+ *        example="7000801",
+ *        in="query",
+ *        @OA\Schema(
+ *            type="string"
+ *        )
+ *     ),
  *     @OA\Parameter(
  *         name="story_item_id",
  *         description="ID элемента сториса",
@@ -18,16 +28,6 @@ use App\Http\Controllers\api\v1\ApiController;
  *         in="path",
  *         @OA\Schema(
  *             type="integer"
- *         )
- *     ),
- *     @OA\Parameter(
- *         name="phone",
- *         description="",
- *         required=true,
- *         example="7000801",
- *         in="query",
- *         @OA\Schema(
- *             type="string"
  *         )
  *     ),
  *     @OA\Parameter(
@@ -78,6 +78,6 @@ use App\Http\Controllers\api\v1\ApiController;
  *     )
  * )
  */
-class StoryItemStoryItemButtonsController extends ApiController
+class C_StoryItemButtonController extends ApiController
 {
 }

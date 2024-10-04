@@ -2,6 +2,8 @@
 
 namespace App\Http\Resources\v1;
 
+use App\Models\StoryComment;
+use App\Models\StoryItem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,8 +21,17 @@ class StoryResource extends JsonResource
 
         $storyItems = $this->whenLoaded('storyItems');
         if ($storyItems instanceof Collection) {
-            $storyItems = StoryItemResource::collection($storyItems->sortBy('position')->where('is_published', 1));
+            $storyItems = $storyItems
+                ->sortBy('position')
+                ->where('is_published', true);
         }
+
+        $comments = $this->whenLoaded('comments');
+        if ($comments instanceof Collection) {
+            $comments = $comments
+                ->where('parent_id', null);
+        }
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -29,8 +40,8 @@ class StoryResource extends JsonResource
             'is_published' => $this->is_published,
             'likes_count' => $this->likes_count,
             'views_count' => $this->views_count,
-            'storyItems' => $storyItems,
-            'comments' => $this->whenLoaded('comments', StoryCommentResource::collection(new StoryCommentResource($this->comments)))
+            'storyItems' => StoryItemResource::collection($storyItems),
+            'comments' => StoryCommentResource::collection($comments),
         ];
     }
 }

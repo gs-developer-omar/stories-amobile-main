@@ -2,16 +2,17 @@
 
 namespace App\Http\Requests\v1;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoryItemRequest extends BaseStoriesRequest
+class StoryItemRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return parent::authorize();
+        return true;
     }
 
     /**
@@ -21,8 +22,7 @@ class StoryItemRequest extends BaseStoriesRequest
      */
     public function rules(): array
     {
-        $parent_rules = parent::rules();
-        $child_rules = [
+        return [
             'include' => [
                 'string',
                 Rule::in(['storyItemButtons'])
@@ -41,6 +41,5 @@ class StoryItemRequest extends BaseStoriesRequest
                 Rule::in(['true', 'false'])
             ]
         ];
-        return array_merge($parent_rules, $child_rules);
     }
 }

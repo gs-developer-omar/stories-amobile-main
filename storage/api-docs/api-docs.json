@@ -12,7 +12,7 @@
                     "Story"
                 ],
                 "summary": "Получение списка сторисов",
-                "operationId": "1cbd3513781d1ab60b9f3819ae9d8e1e",
+                "operationId": "37e253b3a3c422ab375fd17adeb27603",
                 "parameters": [
                     {
                         "name": "phone",
@@ -27,12 +27,12 @@
                     {
                         "name": "include",
                         "in": "query",
-                        "description": "Связанные данные\n * Доступные связи: 'storyItems', 'storyItems.storyItemButtons'. В обоих случаях вложенные связи будут отсортированы по полю - position в порядке возрастания, также is_published = true, is_active = true.",
+                        "description": "Связанные данные\n * Доступные связи: 'storyItems', 'storyItems.storyItemButtons', 'comments', 'comments.replies', 'comments.emojis'.\n *     *Подсказка*: Если нужно получить комментарии вместе с ответами и реакциями, нужно использовать include=comments.replies,comments.emojis.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "storyItems.storyItemButtons"
+                        "example": "storyItems.storyItemButtons,comments"
                     },
                     {
                         "name": "sort",
@@ -50,7 +50,7 @@
                         "description": "ID сториса",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "example": ""
                     },
@@ -128,18 +128,8 @@
                     "Story"
                 ],
                 "summary": "Получение сториса по ID",
-                "operationId": "058d3a97341163df79cdc0cd18795d70",
+                "operationId": "828a079d55c31945bc1bf9f05cf93e86",
                 "parameters": [
-                    {
-                        "name": "story_id",
-                        "in": "path",
-                        "description": "ID сториса",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 2
-                    },
                     {
                         "name": "phone",
                         "in": "query",
@@ -151,14 +141,24 @@
                         "example": "7000801"
                     },
                     {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 2
+                    },
+                    {
                         "name": "include",
                         "in": "query",
-                        "description": "Связанные данные\n * Доступные связи: 'storyItems', 'storyItems.storyItemButtons'. В обоих случаях вложенные связи будут отсортированы по полю - position в порядке возрастания, также is_published = true, is_active = true.",
+                        "description": "Связанные данные\n *  Доступные связи: 'storyItems', 'storyItems.storyItemButtons', 'comments', 'comments.replies', 'comments.emojis'.\n *     Подсказка*: Если нужно получить комментарии вместе с ответами и реакциями, нужно использовать include=comments.replies,comments.emojis.",
                         "required": false,
                         "schema": {
                             "type": "string"
                         },
-                        "example": "storyItems.storyItemButtons"
+                        "example": "storyItems.storyItemButtons,comments"
                     }
                 ],
                 "responses": {
@@ -221,7 +221,7 @@
                     "Story"
                 ],
                 "summary": "Просмотр сториса",
-                "operationId": "52ef0db5cb9144484644fc6bb11bf0ad",
+                "operationId": "37af899c1a1c16cb13faa20fabc7c2aa",
                 "parameters": [
                     {
                         "name": "story_id",
@@ -235,6 +235,7 @@
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
@@ -260,43 +261,23 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "CREATED"
+                                        },
                                         "message": {
                                             "type": "string",
-                                            "example": "Просмотр сториса был успешно зафиксирован."
+                                            "example": "Просмотр сториса был успешно зафиксирован"
                                         },
-                                        "phone": {
-                                            "type": "string",
-                                            "example": "7000801"
-                                        },
-                                        "story": {
+                                        "data": {
                                             "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "title": {
+                                                "phone": {
                                                     "type": "string",
-                                                    "example": "Тестовый Сторис"
+                                                    "example": "7000801"
                                                 },
-                                                "icon_url": {
-                                                    "type": "string",
-                                                    "example": "http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"
-                                                },
-                                                "position": {
+                                                "story_id": {
                                                     "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "is_published": {
-                                                    "type": "boolean",
-                                                    "example": true
-                                                },
-                                                "likes_count": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "views_count": {
-                                                    "type": "integer",
-                                                    "example": 1
+                                                    "example": "2"
                                                 }
                                             },
                                             "type": "object"
@@ -321,7 +302,7 @@
                     "Story"
                 ],
                 "summary": "Лайк сториса",
-                "operationId": "0d1726549269d272166a800bd0ab199b",
+                "operationId": "15d2d44196a5e87ed2923a26c622fedc",
                 "parameters": [
                     {
                         "name": "story_id",
@@ -335,6 +316,7 @@
                     }
                 ],
                 "requestBody": {
+                    "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
@@ -360,104 +342,23 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "message": {
-                                            "type": "string",
-                                            "example": "Лайк сториса был успешно создан."
-                                        },
                                         "event": {
                                             "type": "string",
-                                            "example": "created"
+                                            "example": "CREATED"
                                         },
-                                        "phone": {
-                                            "type": "string",
-                                            "example": "7000801"
-                                        },
-                                        "story": {
-                                            "properties": {
-                                                "id": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "title": {
-                                                    "type": "string",
-                                                    "example": "Тестовый Сторис"
-                                                },
-                                                "icon_url": {
-                                                    "type": "string",
-                                                    "example": "http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"
-                                                },
-                                                "position": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "is_published": {
-                                                    "type": "boolean",
-                                                    "example": true
-                                                },
-                                                "likes_count": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "views_count": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                }
-                                            },
-                                            "type": "object"
-                                        }
-                                    },
-                                    "type": "object"
-                                }
-                            }
-                        }
-                    },
-                    "200": {
-                        "description": "Ok",
-                        "content": {
-                            "application/json": {
-                                "schema": {
-                                    "properties": {
                                         "message": {
                                             "type": "string",
-                                            "example": "Лайк сториса был успешно удален."
+                                            "example": "Лайк был успешно создан"
                                         },
-                                        "event": {
-                                            "type": "string",
-                                            "example": "deleted"
-                                        },
-                                        "phone": {
-                                            "type": "string",
-                                            "example": "7000801"
-                                        },
-                                        "story": {
+                                        "data": {
                                             "properties": {
-                                                "id": {
+                                                "phone": {
+                                                    "type": "string",
+                                                    "example": "7000801"
+                                                },
+                                                "story_id": {
                                                     "type": "integer",
                                                     "example": 2
-                                                },
-                                                "title": {
-                                                    "type": "string",
-                                                    "example": "Тестовый Сторис"
-                                                },
-                                                "icon_url": {
-                                                    "type": "string",
-                                                    "example": "http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"
-                                                },
-                                                "position": {
-                                                    "type": "integer",
-                                                    "example": 1
-                                                },
-                                                "is_published": {
-                                                    "type": "boolean",
-                                                    "example": true
-                                                },
-                                                "likes_count": {
-                                                    "type": "integer",
-                                                    "example": 2
-                                                },
-                                                "views_count": {
-                                                    "type": "integer",
-                                                    "example": 1
                                                 }
                                             },
                                             "type": "object"
@@ -481,19 +382,9 @@
                 "tags": [
                     "Story"
                 ],
-                "summary": "Получение элементов сториса через story_id",
-                "operationId": "7cf6b3266e1b91791dd5a1e6212a44f5",
+                "summary": "Получение списка элементов сториса",
+                "operationId": "ba103a4ef750aecff94f50fa0c116bb0",
                 "parameters": [
-                    {
-                        "name": "story_id",
-                        "in": "path",
-                        "description": "ID сториса",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 2
-                    },
                     {
                         "name": "phone",
                         "in": "query",
@@ -503,6 +394,16 @@
                             "type": "string"
                         },
                         "example": "7000801"
+                    },
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 2
                     },
                     {
                         "name": "include",
@@ -530,7 +431,7 @@
                         "description": "ID элемента сториса",
                         "required": false,
                         "schema": {
-                            "type": "string"
+                            "type": "integer"
                         },
                         "example": ""
                     },
@@ -608,7 +509,7 @@
                     "Story"
                 ],
                 "summary": "Получение определенного элемента сториса через story_item_id",
-                "operationId": "4adc90eec6447fc4a2853947e198cb7f",
+                "operationId": "1a5743691b2c615fca376bbd699ed32e",
                 "parameters": [
                     {
                         "name": "story_id",
@@ -710,19 +611,9 @@
                 "tags": [
                     "Story"
                 ],
-                "summary": "Получение списка кнопок для элемента сториса через story_item_id",
-                "operationId": "eebbc994d9ad1ec45de51edbdfb28f84",
+                "summary": "Получение списка кнопок для элемента сториса",
+                "operationId": "e5d5cf559a1fe20d3abe86d3f90b3950",
                 "parameters": [
-                    {
-                        "name": "story_item_id",
-                        "in": "path",
-                        "description": "ID элемента сториса",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 21
-                    },
                     {
                         "name": "phone",
                         "in": "query",
@@ -732,6 +623,16 @@
                             "type": "string"
                         },
                         "example": "7000801"
+                    },
+                    {
+                        "name": "story_item_id",
+                        "in": "path",
+                        "description": "ID элемента сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 21
                     },
                     {
                         "name": "sort",
@@ -818,19 +719,9 @@
                 "tags": [
                     "Comments"
                 ],
-                "summary": "Получение списка комментариев к определенному сторису.",
-                "operationId": "c12c0884d6a905a476a1e13bc243dffc",
+                "summary": "Получение списка комментариев к определенному сторису",
+                "operationId": "ccd20c07f65807e93b3765fa5e29500f",
                 "parameters": [
-                    {
-                        "name": "story_id",
-                        "in": "path",
-                        "description": "ID сториса",
-                        "required": true,
-                        "schema": {
-                            "type": "integer"
-                        },
-                        "example": 2
-                    },
                     {
                         "name": "phone",
                         "in": "query",
@@ -842,9 +733,19 @@
                         "example": "7000801"
                     },
                     {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 2
+                    },
+                    {
                         "name": "include",
                         "in": "query",
-                        "description": "Связанные данные. Доступные связи: 'replies'. Связанные данные (ответы на комментарии) будут отсортированы по полю updated_at в порядке убывания.",
+                        "description": "Связанные данные. Доступные связи: 'replies', 'emojis'.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -939,7 +840,7 @@
                     "Comments"
                 ],
                 "summary": "Создание комментария к определенному сторису",
-                "operationId": "b9d6db99aa8574c5a7e6c4cc1c57daa7",
+                "operationId": "ec3bad3d10ef1a2574e867f5456af55d",
                 "parameters": [
                     {
                         "name": "story_id",
@@ -983,29 +884,42 @@
                             "application/json": {
                                 "schema": {
                                     "properties": {
-                                        "id": {
-                                            "type": "integer",
-                                            "example": 3
-                                        },
-                                        "story_id": {
-                                            "type": "integer",
-                                            "example": 2
-                                        },
-                                        "phone": {
+                                        "event": {
                                             "type": "string",
-                                            "example": "7000801"
+                                            "example": "CREATED"
                                         },
-                                        "content": {
+                                        "message": {
                                             "type": "string",
-                                            "example": "Тестовый комментарий"
+                                            "example": "Комментарий к сторису был успешно создан"
                                         },
-                                        "updated_at": {
-                                            "type": "string",
-                                            "example": "16:48:54 27-09-2024"
-                                        },
-                                        "parent_id": {
-                                            "type": "integer",
-                                            "example": null
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": "42"
+                                                },
+                                                "story_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "phone": {
+                                                    "type": "string",
+                                                    "example": "7000801"
+                                                },
+                                                "content": {
+                                                    "type": "string",
+                                                    "example": "TEST TEST COMMENT"
+                                                },
+                                                "updated_at": {
+                                                    "type": "string",
+                                                    "example": "14:20:12 04-10-2024"
+                                                },
+                                                "parent_id": {
+                                                    "type": "integer",
+                                                    "example": null
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"
@@ -1026,9 +940,19 @@
                 "tags": [
                     "Comments"
                 ],
-                "summary": "Получение комментария по id к определенному сторису",
-                "operationId": "1e3b4c9dea2db2f386212f19ecb4329f",
+                "summary": "Получение комментария по ID к определенному сторису",
+                "operationId": "735670e4ec17de69db1038ccd1cc188a",
                 "parameters": [
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "7000801"
+                    },
                     {
                         "name": "story_id",
                         "in": "path",
@@ -1050,19 +974,9 @@
                         "example": 3
                     },
                     {
-                        "name": "phone",
-                        "in": "query",
-                        "description": "Номер телефона",
-                        "required": true,
-                        "schema": {
-                            "type": "string"
-                        },
-                        "example": "7000801"
-                    },
-                    {
                         "name": "include",
                         "in": "query",
-                        "description": "Связанные данные. Доступные связи: 'replies'. Связанные данные (ответы на комментарии) будут отсортированы по полю updated_at в порядке убывания.",
+                        "description": "Связанные данные. Доступные связи: 'replies', 'emojis'.",
                         "required": false,
                         "schema": {
                             "type": "string"
@@ -1124,7 +1038,7 @@
                     "Comments"
                 ],
                 "summary": "Удаление комментария по ID у определенного сториса",
-                "operationId": "700d3b63a02d1e6db152c4c0ee23780c",
+                "operationId": "e5a4f4e8678f9f14201476c720a68cd2",
                 "parameters": [
                     {
                         "name": "story_id",
@@ -1158,15 +1072,322 @@
                     }
                 ],
                 "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "DELETED"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Комментарий к сторису был успешно удален"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "phone": {
+                                                    "type": "string",
+                                                    "example": "7000801"
+                                                },
+                                                "story_id": {
+                                                    "type": "integer",
+                                                    "example": "1"
+                                                },
+                                                "comment_id": {
+                                                    "type": "integer",
+                                                    "example": "42"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stories/{story_id}/comments/{comment_id}/reactions": {
+            "get": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Получение списка реакций к определенному комментарию",
+                "operationId": "3dc22ec30bcd7aefbfb759f831d4a91e",
+                "parameters": [
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "7000801"
+                    },
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "1"
+                    },
+                    {
+                        "name": "comment_id",
+                        "in": "path",
+                        "description": "ID комментария",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "31"
+                    }
+                ],
+                "responses": {
                     "200": {
                         "description": "Ok",
                         "content": {
                             "application/json": {
                                 "schema": {
                                     "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 13
+                                                    },
+                                                    "phone": {
+                                                        "type": "string",
+                                                        "example": "7000801"
+                                                    },
+                                                    "story_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "comment_id": {
+                                                        "type": "integer",
+                                                        "example": 31
+                                                    },
+                                                    "emoji": {
+                                                        "type": "string",
+                                                        "example": "😯"
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            },
+            "post": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Создание реакции к определенному комментарию",
+                "operationId": "2a0f18f90760dc9e81b2a00e5226cd70",
+                "parameters": [
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "2"
+                    },
+                    {
+                        "name": "comment_id",
+                        "in": "path",
+                        "description": "ID комментария",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "31"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "phone": {
+                                                "type": "string",
+                                                "example": "7000801"
+                                            },
+                                            "emoji": {
+                                                "type": "string",
+                                                "example": "🙌"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "CREATED"
+                                        },
                                         "message": {
                                             "type": "string",
-                                            "example": "Комментарий к сторису был успешно удален."
+                                            "example": "Реакция 🙌 была успешна добавлена к комментарию"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 19
+                                                },
+                                                "phone": {
+                                                    "type": "string",
+                                                    "example": "7000803"
+                                                },
+                                                "story_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "comment_id": {
+                                                    "type": "integer",
+                                                    "example": 31
+                                                },
+                                                "emoji": {
+                                                    "type": "string",
+                                                    "example": "🙌"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            },
+            "delete": {
+                "tags": [
+                    "Comments"
+                ],
+                "summary": "Удаление комментария по ID у определенного сториса",
+                "operationId": "91c3c34ece9bd0afbd8ac042512ec5e9",
+                "parameters": [
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "2"
+                    },
+                    {
+                        "name": "comment_id",
+                        "in": "path",
+                        "description": "ID комментария",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "31"
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "phone": {
+                                                "type": "string",
+                                                "example": "7000801"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "DELETED",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "event": {
+                                            "type": "string",
+                                            "example": "DELETED"
+                                        },
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Реакция была успешно удалена"
+                                        },
+                                        "data": {
+                                            "properties": {
+                                                "phone": {
+                                                    "type": "string",
+                                                    "example": "7000803"
+                                                },
+                                                "story_id": {
+                                                    "type": "integer",
+                                                    "example": "2"
+                                                },
+                                                "comment_id": {
+                                                    "type": "integer",
+                                                    "example": "31"
+                                                }
+                                            },
+                                            "type": "object"
                                         }
                                     },
                                     "type": "object"

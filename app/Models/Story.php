@@ -30,14 +30,15 @@ class Story extends Model
     public static array $relationships = [
         'storyItems',
         'storyItems.storyItemButtons',
-        'comments'
+        'comments',
+        'comments.replies',
+        'comments.emojis'
     ];
 
     public function comments(): HasMany
     {
         return $this->hasMany(StoryComment::class);
     }
-
 
     public function storyItems(): HasMany
     {

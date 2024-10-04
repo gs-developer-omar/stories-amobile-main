@@ -19,8 +19,11 @@ class StoryItemResource extends JsonResource
 
         $storyItemButtons = $this->whenLoaded('storyItemButtons');
         if ($storyItemButtons instanceof Collection) {
-            $storyItemButtons = StoryItemButtonResource::collection($storyItemButtons->sortBy('position')->where('is_active', 1));
+            $storyItemButtons = $storyItemButtons
+                ->sortBy('position')
+                ->where('is_active', true);
         }
+
         return [
             'element_id' => $this->id,
             'title' => $this->name,
@@ -30,7 +33,7 @@ class StoryItemResource extends JsonResource
             'position' => $this->position,
             'is_published' => $this->is_published,
             'question' => $this->when(!empty($this->question), $this->question),
-            'storyItemButtons' => $storyItemButtons,
+            'storyItemButtons' => StoryItemButtonResource::collection($storyItemButtons),
         ];
     }
 }

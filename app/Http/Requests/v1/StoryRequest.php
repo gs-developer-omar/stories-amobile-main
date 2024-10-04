@@ -4,16 +4,17 @@ namespace App\Http\Requests\v1;
 
 use App\Models\Story;
 use App\Rules\RelationshipsRule;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoryRequest extends BaseStoriesRequest
+class StoryRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return parent::authorize();
+        return true;
     }
 
     /**
@@ -23,8 +24,7 @@ class StoryRequest extends BaseStoriesRequest
      */
     public function rules(): array
     {
-        $parent_rules = parent::rules();
-        $child_rules = [
+        return [
             'include' => [
                 'string',
                 new RelationshipsRule(Story::$relationships)
@@ -43,6 +43,5 @@ class StoryRequest extends BaseStoriesRequest
                 Rule::in(['true', 'false'])
             ]
         ];
-        return array_merge($parent_rules, $child_rules);
     }
 }

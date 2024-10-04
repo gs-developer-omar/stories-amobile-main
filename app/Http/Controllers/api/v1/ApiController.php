@@ -3,26 +3,21 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Http\Controllers\Controller;
-use Illuminate\Http\Request;
+use Illuminate\Database\Eloquent\Model;
 
 abstract class ApiController extends Controller
 {
-    private function include(string $relationship): bool
+    protected function loadedRelationships(): array
     {
-        $param = request()->get('include');
-
-        if (!isset($param)) {
-            return false;
+        $include = request()->get('include');
+        if (!isset($include)) {
+            return [];
         }
-
-        $includeValues = explode(',', strtolower($param));
-
-        return in_array(strtolower($relationship), $includeValues);
+        return explode(',', $include);
     }
-    public function loadedRelationships(array $relationships): array
+
+    protected function validRelationships(array $modelRelationships): array
     {
-        return array_filter($relationships, function ($relationship) {
-            return $this->include($relationship);
-        });
+        return array_intersect($this->loadedRelationships(), $modelRelationships);
     }
 }

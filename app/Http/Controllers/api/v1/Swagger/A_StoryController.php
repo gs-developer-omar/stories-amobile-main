@@ -23,9 +23,10 @@ use App\Http\Controllers\api\v1\ApiController;
  *     @OA\Parameter(
  *          name="include",
  *          description="Связанные данные
- * Доступные связи: 'storyItems', 'storyItems.storyItemButtons'. В обоих случаях вложенные связи будут отсортированы по полю - position в порядке возрастания, также is_published = true, is_active = true.",
+ * Доступные связи: 'storyItems', 'storyItems.storyItemButtons', 'comments', 'comments.replies', 'comments.emojis'.
+ *     *Подсказка*: Если нужно получить комментарии вместе с ответами и реакциями, нужно использовать include=comments.replies,comments.emojis.",
  *          required=false,
- *          example="storyItems.storyItemButtons",
+ *          example="storyItems.storyItemButtons,comments",
  *          in="query",
  *          @OA\Schema(
  *              type="string"
@@ -49,7 +50,7 @@ use App\Http\Controllers\api\v1\ApiController;
  *          example="",
  *          in="query",
  *          @OA\Schema(
- *              type="string"
+ *              type="integer"
  *          )
  *     ),
  *     @OA\Parameter(
@@ -91,6 +92,16 @@ use App\Http\Controllers\api\v1\ApiController;
  *      tags={"Story"},
  *      security={{ "apiKeyAuth": {} }},
  *          @OA\Parameter(
+ *              name="phone",
+ *              description="Номер телефона",
+ *              required=true,
+ *              example="7000801",
+ *              in="query",
+ *              @OA\Schema(
+ *                  type="string"
+ *              )
+ *          ),
+ *          @OA\Parameter(
  *              name="story_id",
  *              description="ID сториса",
  *              required=true,
@@ -101,21 +112,12 @@ use App\Http\Controllers\api\v1\ApiController;
  *              )
  *          ),
  *          @OA\Parameter(
- *               name="phone",
- *               description="Номер телефона",
- *               required=true,
- *               example="7000801",
- *               in="query",
- *               @OA\Schema(
- *                   type="string"
- *               )
- *          ),
- *          @OA\Parameter(
  *              name="include",
  *              description="Связанные данные
- * Доступные связи: 'storyItems', 'storyItems.storyItemButtons'. В обоих случаях вложенные связи будут отсортированы по полю - position в порядке возрастания, также is_published = true, is_active = true.",
+ *  Доступные связи: 'storyItems', 'storyItems.storyItemButtons', 'comments', 'comments.replies', 'comments.emojis'.
+ *     Подсказка*: Если нужно получить комментарии вместе с ответами и реакциями, нужно использовать include=comments.replies,comments.emojis.",
  *              required=false,
- *              example="storyItems.storyItemButtons",
+ *              example="storyItems.storyItemButtons,comments",
  *              in="query",
  *              @OA\Schema(
  *                  type="string"
@@ -156,6 +158,7 @@ use App\Http\Controllers\api\v1\ApiController;
  *                )
  *           ),
  *           @OA\RequestBody(
+ *                required=true,
  *                @OA\JsonContent(
  *                    allOf={
  *                        @OA\Schema(
@@ -168,18 +171,13 @@ use App\Http\Controllers\api\v1\ApiController;
  *               response=201,
  *               description="Created",
  *               @OA\JsonContent(
- *                   @OA\Property(property="message", type="string", example="Просмотр сториса был успешно зафиксирован."),
- *                   @OA\Property(property="phone", type="string", example="7000801"),
+ *                   @OA\Property(property="event", type="string", example="CREATED"),
+ *                   @OA\Property(property="message", type="string", example="Просмотр сториса был успешно зафиксирован"),
  *                   @OA\Property(
- *                       property="story",
+ *                       property="data",
  *                       type="object",
- *                       @OA\Property(property="id", type="integer", example=2),
- *                       @OA\Property(property="title", type="string", example="Тестовый Сторис"),
- *                       @OA\Property(property="icon_url", type="string", example="http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"),
- *                       @OA\Property(property="position", type="integer", example=1),
- *                       @OA\Property(property="is_published", type="boolean", example=true),
- *                       @OA\Property(property="likes_count", type="integer", example=2),
- *                       @OA\Property(property="views_count", type="integer", example=1),
+ *                       @OA\Property(property="phone", type="string", example="7000801"),
+ *                       @OA\Property(property="story_id", type="integer", example="2"),
  *                   ),
  *               ),
  *           ),
@@ -201,6 +199,7 @@ use App\Http\Controllers\api\v1\ApiController;
  *                 )
  *            ),
  *            @OA\RequestBody(
+ *                 required=true,
  *                 @OA\JsonContent(
  *                     allOf={
  *                         @OA\Schema(
@@ -213,44 +212,18 @@ use App\Http\Controllers\api\v1\ApiController;
  *                response=201,
  *                description="Created",
  *                @OA\JsonContent(
- *                    @OA\Property(property="message", type="string", example="Лайк сториса был успешно создан."),
- *                    @OA\Property(property="event", type="string", example="created"),
- *                    @OA\Property(property="phone", type="string", example="7000801"),
+ *                    @OA\Property(property="event", type="string", example="CREATED"),
+ *                    @OA\Property(property="message", type="string", example="Лайк был успешно создан"),
  *                    @OA\Property(
- *                        property="story",
+ *                        property="data",
  *                        type="object",
- *                        @OA\Property(property="id", type="integer", example=2),
- *                        @OA\Property(property="title", type="string", example="Тестовый Сторис"),
- *                        @OA\Property(property="icon_url", type="string", example="http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"),
- *                        @OA\Property(property="position", type="integer", example=1),
- *                        @OA\Property(property="is_published", type="boolean", example=true),
- *                        @OA\Property(property="likes_count", type="integer", example=2),
- *                        @OA\Property(property="views_count", type="integer", example=1),
+ *                        @OA\Property(property="phone", type="string", example="7000801"),
+ *                        @OA\Property(property="story_id", type="integer", example=2),
  *                    ),
  *                ),
  *            ),
- *            @OA\Response(
- *                    response=200,
- *                    description="Ok",
- *                    @OA\JsonContent(
- *                        @OA\Property(property="message", type="string", example="Лайк сториса был успешно удален."),
- *                        @OA\Property(property="event", type="string", example="deleted"),
- *                        @OA\Property(property="phone", type="string", example="7000801"),
- *                        @OA\Property(
- *                            property="story",
- *                            type="object",
- *                            @OA\Property(property="id", type="integer", example=2),
- *                            @OA\Property(property="title", type="string", example="Тестовый Сторис"),
- *                            @OA\Property(property="icon_url", type="string", example="http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"),
- *                            @OA\Property(property="position", type="integer", example=1),
- *                            @OA\Property(property="is_published", type="boolean", example=true),
- *                            @OA\Property(property="likes_count", type="integer", example=2),
- *                            @OA\Property(property="views_count", type="integer", example=1),
- *                        ),
- *                    ),
- *            ),
  *   ),
  */
-class StoriesController extends ApiController
+class A_StoryController extends ApiController
 {
 }

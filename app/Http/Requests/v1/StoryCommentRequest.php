@@ -4,16 +4,17 @@ namespace App\Http\Requests\v1;
 
 use App\Models\StoryComment;
 use App\Rules\RelationshipsRule;
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoryCommentsRequest extends BaseStoriesRequest
+class StoryCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return parent::authorize();
+        return true;
     }
 
     /**
@@ -23,8 +24,7 @@ class StoryCommentsRequest extends BaseStoriesRequest
      */
     public function rules(): array
     {
-        $parent_rules = parent::rules();
-        $child_rules = [
+        return [
             'include' => [
                 'string',
                 new RelationshipsRule(StoryComment::$relationships)
@@ -49,6 +49,5 @@ class StoryCommentsRequest extends BaseStoriesRequest
                 'max:10000',
             ],
         ];
-        return array_merge($parent_rules, $child_rules);
     }
 }

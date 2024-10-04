@@ -19,6 +19,16 @@ class StoryCommentResource extends JsonResource
         if ($replies instanceof Collection) {
             $replies = $replies->sortByDesc('updated_at');
         }
+
+        $emojiCounts = $this->whenLoaded('emojis', function () {
+            return $this->emojis->groupBy('emoji')->map(function ($group) {
+                return [
+                    'emoji' => $group->first()->emoji,
+                    'count' => $group->count(),
+                ];
+            })->values();
+        });
+
         return [
             'id' => $this->id,
             'story_id' => $this->story_id,
@@ -26,6 +36,7 @@ class StoryCommentResource extends JsonResource
             'content' => $this->content,
             'updated_at' => $this->updated_at->setTimezone('Europe/Moscow')->format('H:i:s d-m-Y'),
             'parent_id' => $this->parent_id,
+            'emojis' => $emojiCounts,
             'replies' => StoryCommentResource::collection($replies),
         ];
     }

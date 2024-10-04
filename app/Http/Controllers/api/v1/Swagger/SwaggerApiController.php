@@ -21,7 +21,7 @@ use App\Http\Controllers\Controller;
  *     )
  * )
  */
-class SwaggerMainController extends Controller
+class SwaggerApiController extends Controller
 {
     //
 }

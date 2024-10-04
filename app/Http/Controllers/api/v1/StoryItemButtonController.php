@@ -10,14 +10,14 @@ use App\Models\StoryItem;
 use App\Models\StoryItemButton;
 use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 
-class StoryItemStoryItemButtonsController extends ApiController
+class StoryItemButtonController extends ApiController
 {
     /**
      * Display a listing of the resource.
      */
     public function index(StoryItemButtonRequest $request, StoryItem $storyItem, StoryItemButtonFilter $filters): AnonymousResourceCollection
     {
-        AmobileUser::authorizeAmobileUser($request->input('phone'));
+        AmobileUser::authenticateAmobileUser($request->input('phone'));
 
         return StoryItemButtonResource::collection(StoryItemButton::filter($filters)->where('story_item_id', $storyItem->id)->get());
     }

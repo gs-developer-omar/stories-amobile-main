@@ -2,16 +2,17 @@
 
 namespace App\Http\Requests\v1;
 
+use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class StoryItemButtonRequest extends BaseStoriesRequest
+class StoryItemButtonRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return parent::authorize();
+        return true;
     }
 
     /**
@@ -21,8 +22,7 @@ class StoryItemButtonRequest extends BaseStoriesRequest
      */
     public function rules(): array
     {
-        $parent_rules = parent::rules();
-        $child_rules = [
+        return [
             'sort' => [
                 'string',
                 Rule::in(['position', '-position', 'title', '-title'])
@@ -37,6 +37,5 @@ class StoryItemButtonRequest extends BaseStoriesRequest
                 Rule::in(['true', 'false'])
             ]
         ];
-        return array_merge($parent_rules, $child_rules);
     }
 }

@@ -6,9 +6,19 @@ use App\Http\Controllers\api\v1\ApiController;
 /**
  * @OA\Get(
  *      path="/api/v1/stories/{story_id}/story-items",
- *      summary="Получение элементов сториса через story_id",
+ *      summary="Получение списка элементов сториса",
  *      tags={"Story"},
  *      security={{ "apiKeyAuth": {} }},
+ *          @OA\Parameter(
+ *              name="phone",
+ *              description="Номер телефона",
+ *              required=true,
+ *              example="7000801",
+ *              in="query",
+ *              @OA\Schema(
+ *                  type="string"
+ *              )
+ *          ),
  *          @OA\Parameter(
  *              name="story_id",
  *              description="ID сториса",
@@ -18,16 +28,6 @@ use App\Http\Controllers\api\v1\ApiController;
  *              @OA\Schema(
  *                  type="integer"
  *              )
- *          ),
- *          @OA\Parameter(
- *               name="phone",
- *               description="Номер телефона",
- *               required=true,
- *               example="7000801",
- *               in="query",
- *               @OA\Schema(
- *                   type="string"
- *               )
  *          ),
  *          @OA\Parameter(
  *               name="include",
@@ -58,7 +58,7 @@ use App\Http\Controllers\api\v1\ApiController;
  *               example="",
  *               in="query",
  *               @OA\Schema(
- *                   type="string"
+ *                   type="integer"
  *               )
  *          ),
  *          @OA\Parameter(
@@ -159,6 +159,6 @@ use App\Http\Controllers\api\v1\ApiController;
  *           ),
  *  ),
  */
-class StoryAStoryItemsController extends ApiController
+class B_StoryItemController extends ApiController
 {
 }

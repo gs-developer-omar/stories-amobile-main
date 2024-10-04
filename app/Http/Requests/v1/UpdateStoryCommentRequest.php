@@ -4,14 +4,14 @@ namespace App\Http\Requests\v1;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class UpdateStoryCommentRequest extends BaseStoriesRequest
+class UpdateStoryCommentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
      */
     public function authorize(): bool
     {
-        return parent::authorize();
+        return true;
     }
 
     /**
@@ -21,10 +21,8 @@ class UpdateStoryCommentRequest extends BaseStoriesRequest
      */
     public function rules(): array
     {
-        $parent_rules = parent::rules();
-        $child_rules = [
+        return [
             'content' => 'required|string|min:1|max:2048',
         ];
-        return array_merge($parent_rules, $child_rules);
     }
 }

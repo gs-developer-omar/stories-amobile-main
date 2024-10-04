@@ -14,7 +14,8 @@ class StoryComment extends Model
     use HasFactory;
 
     public static array $relationships = [
-        'replies'
+        'replies',
+        'emojis'
     ];
     /**
      * The attributes that should be cast to native types.
@@ -25,6 +26,11 @@ class StoryComment extends Model
         'id' => 'integer',
         'content' => 'string',
     ];
+
+    public function emojis(): HasMany
+    {
+        return $this->hasMany(EmojiReaction::class);
+    }
 
     public function story(): BelongsTo
     {
