@@ -45,6 +45,23 @@ class StoryCommentController extends ApiController
         $phone = $request->input('phone');
         AmobileUser::authenticateAmobileUser($phone);
 
+        $parent_comment = StoryComment::where([
+            'story_id' => $story->id,
+            'parent_id' => $request->input('parent_id'),
+        ])->first();
+
+        if (empty($parent_comment)) {
+            return response()->json([
+                'errors' => [
+                    [
+                        "type" => ERROR_TYPE::HTTP_UNPROCESSABLE_ENTITY,
+                        'status' => Response::HTTP_UNPROCESSABLE_ENTITY,
+                        "message" => "Комментарий с указанным parent id не существует для данного сториса"
+                    ]
+                ]
+            ], 422);
+        }
+
         $storyComment = StoryComment::create([
             'story_id' => $story->id,
             'phone' => $phone,
