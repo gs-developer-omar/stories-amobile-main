@@ -40,6 +40,7 @@ class StoryResource extends JsonResource
             'is_published' => $this->is_published,
             'likes_count' => $this->likes_count,
             'views_count' => $this->views_count,
+            'is_liked' => $this->isLikedByAmobileUser(),
             'storyItems' => StoryItemResource::collection($storyItems),
             'comments' => StoryCommentResource::collection($comments),
         ];

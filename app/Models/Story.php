@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Filters\v1\QueryFilter;
+use App\Http\Middleware\AmobileUserAuthMiddleware;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
@@ -65,6 +66,18 @@ class Story extends Model
         return $this->views()->count();
     }
 
+    public function isLikedByAmobileUser()
+    {
+        $user_id = AmobileUser::where([
+            'phone' => request()->input('phone')
+        ])->first()->id;
+
+        if (!$user_id) {
+            return false;
+        }
+
+        return $this->likes()->where('amobile_user_id', $user_id)->exists();
+    }
     protected static function boot(): void
     {
         parent::boot();
