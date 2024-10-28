@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\v1;
 
+use App\Models\StoryComment;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Collection;
@@ -29,6 +30,15 @@ class StoryCommentResource extends JsonResource
             })->values();
         });
 
+        $parent_commment = null;
+
+        if (!is_null($this->parent_id)) {
+            $parent_commment = StoryComment::where([
+                'id' => $this->parent_id,
+                'story_id' => $this->story_id
+            ])->first();
+        }
+
         return [
             'id' => $this->id,
             'story_id' => $this->story_id,
@@ -38,6 +48,7 @@ class StoryCommentResource extends JsonResource
             'parent_id' => $this->parent_id,
             'emojis' => $emojiCounts,
             'replies' => StoryCommentResource::collection($replies),
+            'parent_comment' => new StoryCommentResource($parent_commment),
         ];
     }
 }
