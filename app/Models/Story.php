@@ -66,6 +66,11 @@ class Story extends Model
         return $this->views()->count();
     }
 
+    public function getCommentsCountAttribute()
+    {
+        return $this->comments()->count();
+    }
+
     public function isLikedByAmobileUser()
     {
         $user_id = AmobileUser::where([

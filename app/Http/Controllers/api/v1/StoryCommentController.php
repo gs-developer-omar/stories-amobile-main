@@ -44,7 +44,7 @@ class StoryCommentController extends ApiController
     {
         $phone = $request->input('phone');
         AmobileUser::authenticateAmobileUser($phone);
-        
+
         if (!is_null($request->input('parent_id'))) {
             $parent_comment = StoryComment::where([
                 'story_id' => $story->id,
