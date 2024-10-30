@@ -32,7 +32,10 @@ class StoryComment extends Model
     {
         return $this->hasMany(EmojiReaction::class);
     }
-
+    public function isMarkedByAmobileUser()
+    {
+        return $this->emojis()->where('phone', request()->input('phone'))->exists();
+    }
     public function story(): BelongsTo
     {
         return $this->belongsTo(Story::class);
