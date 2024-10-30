@@ -22,7 +22,13 @@ class StoryCommentController extends ApiController
     {
         AmobileUser::authenticateAmobileUser($request->input('phone'));
 
-        return StoryCommentResource::collection(StoryComment::filter($filters)->whereNull('parent_id')->where('story_id', $story->id)->get());
+        $storyComments = StoryComment::filter($filters)->where('story_id', $story->id);
+
+        if (in_array('parentComment', $this->validRelationships(StoryComment::$relationships))) {
+            return StoryCommentResource::collection($storyComments->get());
+        }
+
+        return StoryCommentResource::collection($storyComments->whereNull('parent_id')->get());
     }
 
     public function show(StoryCommentRequest $request, Story $story, int $storyCommentId): StoryCommentResource

@@ -15,7 +15,8 @@ class StoryComment extends Model
 
     public static array $relationships = [
         'replies',
-        'emojis'
+        'emojis',
+        'parentComment'
     ];
     /**
      * The attributes that should be cast to native types.
@@ -35,6 +36,10 @@ class StoryComment extends Model
     public function story(): BelongsTo
     {
         return $this->belongsTo(Story::class);
+    }
+    public function parentComment()
+    {
+        return $this->belongsTo(StoryComment::class, 'parent_id');
     }
     protected function notRecursiveReplies(): HasMany
     {

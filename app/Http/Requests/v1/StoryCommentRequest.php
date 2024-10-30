@@ -3,6 +3,7 @@
 namespace App\Http\Requests\v1;
 
 use App\Models\StoryComment;
+use App\Rules\ExcludeRepliesAndParentComment;
 use App\Rules\RelationshipsRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
@@ -27,7 +28,8 @@ class StoryCommentRequest extends FormRequest
         return [
             'include' => [
                 'string',
-                new RelationshipsRule(StoryComment::$relationships)
+                new RelationshipsRule(StoryComment::$relationships),
+                new ExcludeRepliesAndParentComment(StoryComment::$relationships),
             ],
             'sort' => [
                 'string',
