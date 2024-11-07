@@ -36,6 +36,10 @@ class StoryComment extends Model
     {
         return $this->emojis()->where('phone', request()->input('phone'))->exists();
     }
+    public function currentUserEmoji()
+    {
+        return $this->emojis()->where('phone', request()->input('phone'))->first()->emoji ?? null;
+    }
     public function story(): BelongsTo
     {
         return $this->belongsTo(Story::class);

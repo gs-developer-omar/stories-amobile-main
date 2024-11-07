@@ -34,7 +34,7 @@ class StoryCommentResource extends JsonResource
             'id' => $this->id,
             'story_id' => $this->story_id,
             'phone' => $this->phone,
-            'is_marked' => $this->isMarkedByAmobileUser(),
+            'current_user_emoji' => $this->currentUserEmoji(),
             'content' => $this->content,
             'updated_at' => $this->updated_at->setTimezone('Europe/Moscow')->format('H:i:s d-m-Y'),
             'parent_id' => $this->parent_id,
