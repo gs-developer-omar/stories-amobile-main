@@ -15,7 +15,9 @@ return new class extends Migration
     {
         Schema::create('emoji_reactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignIdFor(StoryComment::class);
+            $table->foreignIdFor(StoryComment::class)
+                ->constrained()
+                ->onDelete('cascade');
             $table->foreignIdFor(AmobileUser::class, 'phone');
             $table->string('emoji', 10)->charset('utf8mb4')->collation('utf8mb4_unicode_ci');
             $table->timestamps();
