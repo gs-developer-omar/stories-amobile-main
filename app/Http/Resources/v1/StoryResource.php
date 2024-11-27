@@ -2,8 +2,6 @@
 
 namespace App\Http\Resources\v1;
 
-use App\Models\StoryComment;
-use App\Models\StoryItem;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use App\Http\Filters\v1\QueryFilter;
+use FFMpeg\FFMpeg;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Group;
 use Filament\Forms\Components\Select;
@@ -68,6 +69,39 @@ class StoryItem extends Model
     public function scopeFilter(Builder $builder, QueryFilter $filters)
     {
         return $filters->apply($builder);
+    }
+
+    public function getVideoLength()
+    {
+        $file_url = config('app.url') . '/storage/' . $this->file_path;
+        // Проверяем, что ссылка на видео имеет правильный формат
+        if (!filter_var($file_url, FILTER_VALIDATE_URL)) {
+            return null;
+        }
+
+        if (strtolower(substr($file_url, -4)) !== '.mp4') {
+            return null;
+        }
+
+
+
+        // Пробуем загрузить видео
+        try {
+            // Получаем информацию о видео
+            $ffmpeg = FFMpeg::create([
+                'ffmpeg.binaries'  => 'C:\Users\omar.o\Desktop\ffmpeg-master-latest-win64-gpl-shared\bin\ffmpeg.exe',  // Укажите путь к ffmpeg
+                'ffprobe.binaries' => 'C:\Users\omar.o\Desktop\ffmpeg-master-latest-win64-gpl-shared\bin\ffprobe.exe', // Укажите путь к ffprobe
+                'timeout'           => 3600,
+                'ffmpeg.threads'    => 12,
+            ]);
+
+            $video = $ffmpeg->open($file_url);
+
+            return $video->getFormat()->get('duration');
+        } catch (\Exception $e) {
+            // Если не удается обработать видео, возвращаем null
+            return null;
+        }
     }
 
     public static function getForm($story_id = null): array

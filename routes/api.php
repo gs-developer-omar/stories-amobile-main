@@ -28,4 +28,5 @@ Route::prefix('v1')->middleware([
     Route::get('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'index']);
     Route::post('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'addReaction']);
     Route::delete('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'removeReaction']);
+    Route::delete('/stories/delete-all-comments', [StoryCommentController::class, 'deleteAllComments']);
 });

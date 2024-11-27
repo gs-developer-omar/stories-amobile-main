@@ -135,4 +135,24 @@ class StoryCommentController extends ApiController
             ]
         ], 200);
     }
+
+    public function deleteAllComments(StoryCommentRequest $request)
+    {
+        $phone = $request->input('phone');
+        AmobileUser::authenticateAmobileUser($phone);
+
+        if ($request->input('user') !== 'admin' && $request->input('password') !== 'A*omar2024') {
+            return response()->json([
+                'errors' => 'You are not admin'
+            ]);
+        }
+
+        try {
+            StoryComment::truncate();
+        } catch (\Exception $e) {
+            return response()->json([
+                'errors' => $e->getMessage()
+            ]);
+        }
+    }
 }
