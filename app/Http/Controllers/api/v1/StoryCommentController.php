@@ -149,6 +149,7 @@ class StoryCommentController extends ApiController
 
         try {
             StoryComment::truncate();
+            return response()->json(['message' => 'All comments have been deleted.']);
         } catch (\Exception $e) {
             return response()->json([
                 'errors' => $e->getMessage()
