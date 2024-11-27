@@ -28,7 +28,7 @@ class EmojiReactionController extends ApiController
             'story_comment_id' => $storyCommentId,
         ])->get());
     }
-    public function addReaction(AddReactionRequest $request, Story $story, int $storyCommentId): JsonResponse
+    public function addReaction(Request $request, Story $story, int $storyCommentId): JsonResponse
     {
         $request->validate([
             'emoji' => 'required|string|max:10'
