@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\api\v1;
 
 use App\Enums\api\v1\HTTP_EVENT;
+use App\Http\Requests\v1\AddReactionRequest;
 use App\Http\Resources\v1\EmojiReactionResource;
 use App\Models\AmobileUser;
 use App\Models\EmojiReaction;
@@ -27,7 +28,7 @@ class EmojiReactionController extends ApiController
             'story_comment_id' => $storyCommentId,
         ])->get());
     }
-    public function addReaction(Request $request, Story $story, int $storyCommentId): JsonResponse
+    public function addReaction(AddReactionRequest $request, Story $story, int $storyCommentId): JsonResponse
     {
         $request->validate([
             'emoji' => 'required|string|max:10'
