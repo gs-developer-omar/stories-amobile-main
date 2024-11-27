@@ -30,7 +30,6 @@ class StoryItemResource extends JsonResource
             'media_type' => $this->media_type,
             'link' => $this->when($this->media_type === 'link', $this->link),
             'file_path' => $this->when($this->media_type === 'media_file', $storage_path . $this->file_path),
-            'video_length' => $this->getVideoLength(),
             'position' => $this->position,
             'is_published' => $this->is_published,
             'question' => $this->when(!empty($this->question), $this->question),
