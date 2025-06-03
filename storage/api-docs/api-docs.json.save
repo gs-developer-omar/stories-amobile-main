@@ -1,0 +1,803 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "Stories API Documentation",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/": {},
+        "/api/v1/stories": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Получение списка сторисов",
+                "operationId": "1cbd3513781d1ab60b9f3819ae9d8e1e",
+                "parameters": [
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "7000801"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Связанные данные\n * Доступные связи: 'storyItems', 'storyItems.storyItemButtons'. В обоих случаях вложенные связи будут отсортированы по полю - position в порядке возрастания, также is_published = true, is_active = true.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "storyItems.storyItemButtons"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Сортировка данных\n * Сортируемые поля: 'title', 'position'. Если передать значение без знака, отсортирует в порядке возрастания, если со знаком минус (-title), отсортирует в порядке убывания.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "-position"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID сториса",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": ""
+                    },
+                    {
+                        "name": "is_published",
+                        "in": "query",
+                        "description": "Опубликован\n * Информация о том, опубликован ли сторис, или нет.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Тестовый Сторис"
+                                                    },
+                                                    "icon_url": {
+                                                        "type": "string",
+                                                        "example": "http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"
+                                                    },
+                                                    "position": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "is_published": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    },
+                                                    "likes_count": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "views_count": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stories/{story_id}": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Получение сториса по ID",
+                "operationId": "058d3a97341163df79cdc0cd18795d70",
+                "parameters": [
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 2
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "7000801"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Связанные данные\n * Доступные связи: 'storyItems', 'storyItems.storyItemButtons'. В обоих случаях вложенные связи будут отсортированы по полю - position в порядке возрастания, также is_published = true, is_active = true.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "storyItems.storyItemButtons"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Тестовый Сторис"
+                                                },
+                                                "icon_url": {
+                                                    "type": "string",
+                                                    "example": "http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"
+                                                },
+                                                "position": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "is_published": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "likes_count": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "views_count": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stories/{story_id}/watch": {
+            "post": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Просмотр сториса",
+                "operationId": "52ef0db5cb9144484644fc6bb11bf0ad",
+                "parameters": [
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "2"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "phone": {
+                                                "type": "string",
+                                                "example": "7000801"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Просмотр сториса был успешно зафиксирован."
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "7000801"
+                                        },
+                                        "story": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Тестовый Сторис"
+                                                },
+                                                "icon_url": {
+                                                    "type": "string",
+                                                    "example": "http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"
+                                                },
+                                                "position": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "is_published": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "likes_count": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "views_count": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stories/{story_id}/like": {
+            "post": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Лайк сториса",
+                "operationId": "0d1726549269d272166a800bd0ab199b",
+                "parameters": [
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": "2"
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "allOf": [
+                                    {
+                                        "properties": {
+                                            "phone": {
+                                                "type": "string",
+                                                "example": "7000801"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                ]
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Лайк сториса был успешно создан."
+                                        },
+                                        "event": {
+                                            "type": "string",
+                                            "example": "created"
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "7000801"
+                                        },
+                                        "story": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Тестовый Сторис"
+                                                },
+                                                "icon_url": {
+                                                    "type": "string",
+                                                    "example": "http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"
+                                                },
+                                                "position": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "is_published": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "likes_count": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "views_count": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Лайк сториса был успешно удален."
+                                        },
+                                        "event": {
+                                            "type": "string",
+                                            "example": "deleted"
+                                        },
+                                        "phone": {
+                                            "type": "string",
+                                            "example": "7000801"
+                                        },
+                                        "story": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Тестовый Сторис"
+                                                },
+                                                "icon_url": {
+                                                    "type": "string",
+                                                    "example": "http://stories.test/storage/stories/icons/01J7368AAS4Q399AXFC8R2X6DP.webp"
+                                                },
+                                                "position": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "is_published": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                },
+                                                "likes_count": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "views_count": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stories/{story_id}/story-items": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Получение элементов сториса через story_id",
+                "operationId": "7cf6b3266e1b91791dd5a1e6212a44f5",
+                "parameters": [
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 2
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "7000801"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Связанные данные\n * Доступные связи: 'storyItemButtons'. Полученные вложенные данные будут отсортированы по полю - position в порядке возрастания, также is_active = true.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "storyItemButtons"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "Сортировка данных\n * Сортируемые поля: 'title', 'position'. Если передать значение без знака, отсортирует в порядке возрастания, если со знаком минус (-title), отсортирует в порядке убывания.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "position"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "ID элемента сториса",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": ""
+                    },
+                    {
+                        "name": "is_published",
+                        "in": "query",
+                        "description": "Опубликован\n * Информация о том, опубликован ли сторис, или нет.",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": "true"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "element_id": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "title": {
+                                                        "type": "string",
+                                                        "example": "Тестовый Сторис"
+                                                    },
+                                                    "media_type": {
+                                                        "type": "string",
+                                                        "example": "media_file"
+                                                    },
+                                                    "file_path": {
+                                                        "type": "string",
+                                                        "example": "http://stories.test/storage/stories/items/01J7BMT94V1W2D0MFYPFWEAWEB.webp"
+                                                    },
+                                                    "link": {
+                                                        "type": "string",
+                                                        "example": "https://www.instagram.com/p/CRYgfzNnoST/?utm_medium=copy_link"
+                                                    },
+                                                    "position": {
+                                                        "type": "integer",
+                                                        "example": 1
+                                                    },
+                                                    "is_published": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                                "type": "object"
+                                            }
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/stories/{story_id}/story-items/{story_item_id}": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Получение определенного элемента сториса через story_item_id",
+                "operationId": "4adc90eec6447fc4a2853947e198cb7f",
+                "parameters": [
+                    {
+                        "name": "story_id",
+                        "in": "path",
+                        "description": "ID сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 2
+                    },
+                    {
+                        "name": "story_item_id",
+                        "in": "path",
+                        "description": "ID элемента сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 21
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "Номер телефона",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "7000801"
+                    },
+                    {
+                        "name": "include",
+                        "in": "query",
+                        "description": "Связанные данные\n * Доступные связи: 'storyItemButtons'. Полученные вложенные данные будут отсортированы по полю - position в порядке возрастания, также is_active = true.",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "storyItemButtons"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "element_id": {
+                                                    "type": "integer",
+                                                    "example": 21
+                                                },
+                                                "title": {
+                                                    "type": "string",
+                                                    "example": "Тестовый Элемент Сториса"
+                                                },
+                                                "media_type": {
+                                                    "type": "string",
+                                                    "example": "media_file"
+                                                },
+                                                "file_path": {
+                                                    "type": "string",
+                                                    "example": "http://stories.test/storage/stories/items/01J7BMT94V1W2D0MFYPFWEAWEB.webp"
+                                                },
+                                                "link": {
+                                                    "type": "string",
+                                                    "example": "https://www.instagram.com/p/CRYgfzNnoST/?utm_medium=copy_link"
+                                                },
+                                                "position": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "is_published": {
+                                                    "type": "boolean",
+                                                    "example": true
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "apiKeyAuth": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/story-items/{story_item_id}/story-item-buttons": {
+            "get": {
+                "tags": [
+                    "Story"
+                ],
+                "summary": "Получение списка кнопок для элемента сториса через story_item_id",
+                "operationId": "eebbc994d9ad1ec45de51edbdfb28f84",
+                "parameters": [
+                    {
+                        "name": "story_item_id",
+                        "in": "path",
+                        "description": "ID элемента сториса",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": 21
+                    },
+                    {
+                        "name": "phone",
+                        "in": "query",
+                        "description": "",
+                        "required": true,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "7000801"
+                    },
+                    {
+                        "name": "sort",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "string"
+                        },
+                        "example": "position"
+                    },
+                    {
+                        "name": "id",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "integer"
+                        },
+                        "example": ""
+                    },
+                    {
+                        "name": "is_active",
+                        "in": "query",
+                        "description": "",
+                        "required": false,
+                        "schema": {
+                            "type": "boolean"
+                        },
+                        "example": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Ok",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "type": "array",
+                                            "items": {
+                                                "properties": {
+                                                    "id": {
+                                                        "type": "integer",
+                                                        "example": 12
+                                                    },
+                                                    "button_text": {
+                                                        "type": "string",
+                                                        "example": "Yes"
+                                                    },
+                                                    "media_url": {
+                                                        "type": "string",
+                                                        "example": "http://stories.test/storage/stories/items/buttons/01J7DK35EP99WJ4VBXMV3HN48Q.webp"
+                                                    },
+                                                    "position": {
+                                                        "type": "integer",
+                                                        "example": 2
+                                                    },
+                                                    "is_active": {
+                                                        "type": "boolean",
+                                                        "example": true
+                                                    }
+                                                },
+                                               "type": "object"
+                                            }
+                                        }
+                                    },
+                            
