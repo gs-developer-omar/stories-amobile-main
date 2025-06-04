@@ -8,6 +8,7 @@ use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\HttpKernel\Exception\MethodNotAllowedHttpException;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class ApiExceptions
@@ -16,7 +17,21 @@ class ApiExceptions
         NotFoundHttpException::class => 'handleNotFoundHttpException',
         ModelNotFoundException::class => 'handleModelNotFoundException',
         ValidationException::class => 'handleValidationException',
+        MethodNotAllowedHttpException::class => 'handleMethodNotAllowedHttpException',
     ];
+
+    public static function handleMethodNotAllowedHttpException(MethodNotAllowedHttpException $e, Request $request): JsonResponse
+    {
+        return response()->json([
+            'errors' => [
+                [
+                    'type' => ERROR_TYPE::HTTP_METHOD_NOT_ALLOWED,
+                    'status' => Response::HTTP_METHOD_NOT_ALLOWED,
+                    'message' => rtrim($e->getMessage(), '.'),
+                ]
+            ]
+        ], Response::HTTP_NOT_FOUND);
+    }
 
     public static function handleNotFoundHttpException(NotFoundHttpException $e, Request $request): JsonResponse
     {
