@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\abaza_api\AbazaController;
 use App\Http\Controllers\api\v1\EmojiReactionController;
 use App\Http\Controllers\api\v1\StoryController;
 use App\Http\Controllers\api\v1\StoryItemButtonController;
@@ -29,4 +30,9 @@ Route::prefix('v1')->middleware([
     Route::post('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'addReaction']);
     Route::delete('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'removeReaction']);
     Route::delete('/stories/delete-all-comments', [StoryCommentController::class, 'deleteAllComments']);
+});
+Route::prefix('v1')->middleware([
+    'abaza_requests'
+])->group(function() {
+    Route::post('/abaza/send-user-data-to-manager', [AbazaController::class, 'sendUserDataToManager'])->name('abaza.send-user-data-to-manager');
 });

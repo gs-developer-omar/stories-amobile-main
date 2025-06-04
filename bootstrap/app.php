@@ -2,6 +2,7 @@
 
 use App\Enums\api\v1\ERROR_TYPE;
 use App\Exceptions\v1\ApiExceptions;
+use App\Http\Middleware\abaza_api\AbazaRequests;
 use App\Http\Middleware\AmobileUserAuthMiddleware;
 use App\Http\Middleware\ApiKeyAuthMiddleware;
 use Illuminate\Database\Eloquent\ModelNotFoundException;
@@ -21,7 +22,8 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->alias([
             'api_key_auth' => ApiKeyAuthMiddleware::class,
-            'amobile_auth' => AmobileUserAuthMiddleware::class
+            'amobile_auth' => AmobileUserAuthMiddleware::class,
+            'abaza_requests' => AbazaRequests::class
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
