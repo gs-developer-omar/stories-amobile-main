@@ -28,7 +28,7 @@ class SendUserDataToManagerRequest extends FormRequest
                 'string',
                 'min:5',
                 'max:255',
-                'regex:/^[А-Я][а-я]*\s[А-Я][а-я]*\s[А-Я][а-я]*$/u',
+                'regex:/^[А-ЯЁ][а-яё\-]+(?:\s[А-ЯЁ][а-яё\-]+){2}$/u',
             ],
             'phone' => [
                 'required',
