@@ -31,8 +31,9 @@ Route::prefix('v1')->middleware([
     Route::delete('/stories/{story}/comments/{storyComment}/reactions', [EmojiReactionController::class, 'removeReaction']);
     Route::delete('/stories/delete-all-comments', [StoryCommentController::class, 'deleteAllComments']);
 });
-Route::prefix('v1')->middleware([
-    'abaza_requests'
-])->group(function() {
+Route::prefix('v1')->group(function() {
     Route::post('/abaza/send-user-data-to-manager', [AbazaController::class, 'sendUserDataToManager'])->name('abaza.send-user-data-to-manager');
 });
+//->middleware([
+//    'abaza_requests'
+//])
