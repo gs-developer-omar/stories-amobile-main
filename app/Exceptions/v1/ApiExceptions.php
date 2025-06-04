@@ -43,7 +43,7 @@ class ApiExceptions
                     'message' => rtrim($e->getMessage(), '.'),
                 ]
             ]
-        ], Response::HTTP_NOT_FOUND);
+        ], Response::HTTP_METHOD_NOT_ALLOWED);
     }
 
     public static function handleModelNotFoundException(ModelNotFoundException $e, Request $request): JsonResponse
