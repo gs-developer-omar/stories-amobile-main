@@ -41,7 +41,8 @@ class AbazaRequests
     {
         $serverSecretKey = config('abaza_api.secret_key', '');
         if ($routeName === 'abaza.send-user-data-to-manager') {
-            return hash_hmac('sha256', $params['phone'], $serverSecretKey);
+            $phone = $params['phone'] ?? '';
+            return hash_hmac('sha256', $phone, $serverSecretKey);
         }
         return null;
     }
