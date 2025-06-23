@@ -30,7 +30,7 @@ class AbazaInternetUserData extends Mailable
         $this->fio = $userData['fio'];
         $this->address = $userData['address'];
         $this->phone = $userData['phone'];
-        $this->mail_from_address = config('mail.from.abaza.address', 'verification@a-mobile.biz');
+        $this->mail_from_address = config('mail.from.abaza.address', 'info@abazatel.net');
         $this->mail_from_name = config('mail.from.abaza.name', 'Абаза Телеком');
     }
 
