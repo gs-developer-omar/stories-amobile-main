@@ -39,8 +39,8 @@ class AcquiringFaqMiddleware
 
     protected function generateExpectedSignature($routeName, $params): ?string
     {
-        $serverSecretKey = config('acquiring_api.secret_key', '');
-        if ($routeName === 'acquiring_api.send-user-data-to-manager') {
+        $serverSecretKey = config('acquiring_faq_api.secret_key', '');
+        if ($routeName === 'acquiring.send-user-data-to-manager') {
             $phone = $params['phone'] ?? '';
             $organization = $params['organization'] ?? '';
             $data = $phone . $organization;
