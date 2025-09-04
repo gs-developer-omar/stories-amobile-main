@@ -26,7 +26,7 @@ class AcquiringFaqRequest extends FormRequest
             'phone' => ['required', 'string', 'max:14'],
             'name' => ['required', 'string', 'max:255'],
             'organization' => ['required', 'string', 'max:255'],
-            'message' => ['string', 'max:1000']
+            'message' => ['max:1000']
         ];
     }
 
