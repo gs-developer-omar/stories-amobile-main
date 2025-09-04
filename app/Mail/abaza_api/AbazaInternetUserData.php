@@ -19,7 +19,7 @@ class AbazaInternetUserData extends Mailable
     public string $mail_from_name;
     public string $mail_subject = "Заявка на подключение интернета";
     public const MAIL_RECIPIENTS = [
-        "harchilavaarsen2@gmail.com",
+        "info@abazatel.net",
     ];
 
     /**

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\abaza_api\AbazaController;
+use App\Http\Controllers\acquiring_faq_api\AcquiringFaqController;
 use App\Http\Controllers\api\v1\EmojiReactionController;
 use App\Http\Controllers\api\v1\StoryController;
 use App\Http\Controllers\api\v1\StoryItemButtonController;
@@ -32,8 +33,11 @@ Route::prefix('v1')->middleware([
     Route::delete('/stories/delete-all-comments', [StoryCommentController::class, 'deleteAllComments']);
 });
 Route::prefix('v1')->group(function() {
-    Route::post('/abaza/send-user-data-to-manager', [AbazaController::class, 'sendUserDataToManager'])->name('abaza.send-user-data-to-manager');
+    Route::middleware(['abaza_requests'])
+        ->post('/abaza/send-user-data-to-manager', [AbazaController::class, 'sendUserDataToManager'])
+        ->name('abaza.send-user-data-to-manager');
+
+    Route::middleware(['acquiring_faq_middleware'])
+        ->post('/acquiring/send-user-data-to-manager', AcquiringFaqController::class)
+        ->name('acquiring.send-user-data-to-manager');
 });
-//->middleware([
-//    'abaza_requests'
-//])
