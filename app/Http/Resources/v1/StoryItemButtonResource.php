@@ -21,6 +21,7 @@ class StoryItemButtonResource extends JsonResource
             'media_url' => $storage_path . $this->media_url,
             'position' => $this->position,
             'is_active' => $this->is_active,
+            'pt_id' => $this->pt_id
         ];
     }
 }
