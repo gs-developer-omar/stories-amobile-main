@@ -78,8 +78,8 @@ class StoryItemButtonResource extends Resource
                     ->alignCenter()
                     ->openUrlInNewTab()
                     ->sortable(),
-                Tables\Columns\TextInputColumn::make('ptId')
-                    ->label('Позиция')
+                Tables\Columns\TextInputColumn::make('pt_id')
+                    ->label('PT_ID')
                     ->alignCenter()
                     ->type('number') // Включает числовую клавиатуру на мобильных и стрелочки на ПК
                     ->rules(['required', 'integer', 'min:1'])
